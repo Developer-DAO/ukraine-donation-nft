@@ -1,5 +1,5 @@
 {
-  "name": "openzeppelin-solidity-hardhat-playground",
+  "name": "pixel-devs-ukraine-donation-contract",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "node": ">=12.13.0"
   },
   "keywords": [],
-  "author": "Brian Gershon",
+  "author": "Developer DAO",
   "license": "MIT",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.3",

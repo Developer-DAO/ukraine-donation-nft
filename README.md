@@ -1,21 +1,12 @@
-# openzeppelin-solidity-hardhat-playground
+# pixel-devs-ukraine-donation-contract
 
-![Solidity tests](https://github.com/briangershon/openzeppelin-solidity-hardhat-playground/actions/workflows/continuous-integration.yaml/badge.svg)
+![Solidity tests](https://github.com/Developer-DAO/pixel-devs-ukraine-donation-contract/actions/workflows/continuous-integration.yaml/badge.svg)
 
-Develop, test and deploy Solidity contracts based on OpenZeppelin. Use Hardhat development environment. Deploy to Polygon.
+An OpenZeppelin smart contract to support donations to Ukraine DAO for humanitarian efforts.
 
-Use as a starter template for new Solidity projects.
+Donations being sent to: https://twitter.com/Ukraine_DAO/status/1497740751941238784
 
-Initially based on the [OpenZeppelin Learn tutorial](https://docs.openzeppelin.com/learn/).
-
-Also added:
-
-- additional testing features
-  - extra [Chai matchers from Waffle](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html) (instead of OpenZeppelin Test Helpers)
-  - Github Action to run tests
-- scripts in `package.json`
-- solhint linter
-- configuration to deploy to Polygon Mumbai test network
+Based on the Developer DAO Pixel Devs design.
 
 ## Deploying
 
@@ -38,3 +29,7 @@ const Box = await ethers.getContractFactory('Box');
 const box = await Box.attach('<contract address goes here>');
 await box.store(42);
 ```
+
+## Run tests
+
+    npm test
