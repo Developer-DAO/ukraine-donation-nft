@@ -25,9 +25,9 @@ Based on the Developer DAO Pixel Devs design.
 Interact with it via the console (`npx hardhat console --network mumbai`)
 
 ```
-const Box = await ethers.getContractFactory('Box');
-const box = await Box.attach('<contract address goes here>');
-await box.store(42);
+const Donation = await ethers.getContractFactory('PixelDevsUkraineDonation');
+const donation = await Donation.attach('<contract address goes here>');
+await donation.setBaseURI("ipfs://abc");
 ```
 
 ## Run tests
