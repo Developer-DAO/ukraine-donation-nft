@@ -10,7 +10,15 @@ const POLYGON_MUMBAI_RPC = process.env.POLYGON_MUMBAI_RPC || "1".repeat(32);
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "1".repeat(64);
 
 module.exports = {
-  solidity: "0.8.9",
+  solidity: {
+    version: "0.8.9",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 1000,
+      },
+    },
+  },
   networks: {
     mumbai: {
       url: POLYGON_MUMBAI_RPC,
