@@ -48,7 +48,7 @@ describe("PixelDevsUkraineDonation", function() {
         })
       )
         .to.emit(this.contract, "LogTokenMinted")
-        .withArgs(this.owner.address, 1234);
+        .withArgs(this.owner.address, 1234, "bronze");
 
       await expect(await this.contract.ownerOf(1234)).to.equal(
         this.owner.address
@@ -59,6 +59,76 @@ describe("PixelDevsUkraineDonation", function() {
       await expect(
         this.contract.mint(1111, { value: ethers.utils.parseEther("1") })
       ).to.be.revertedWith("Not enough MATIC sent");
+    });
+
+    it("should have donationType == BRONZE", async function() {
+      await expect(
+        this.contract.mint(1234, {
+          value: ethers.utils.parseEther("25"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1234, "bronze");
+
+      await expect(await this.contract.tokenURI(1234)).to.equal(
+        "ipfs://abcd.../bronze"
+      );
+    });
+
+    it("should have donationType == SILVER", async function() {
+      await expect(
+        this.contract.mint(1234, {
+          value: ethers.utils.parseEther("50"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1234, "silver");
+
+      await expect(await this.contract.tokenURI(1234)).to.equal(
+        "ipfs://abcd.../silver"
+      );
+    });
+
+    it("should have donationType == GOLD", async function() {
+      await expect(
+        this.contract.mint(1234, {
+          value: ethers.utils.parseEther("100"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1234, "gold");
+
+      await expect(await this.contract.tokenURI(1234)).to.equal(
+        "ipfs://abcd.../gold"
+      );
+    });
+
+    it("should have donationType == DIAMOND", async function() {
+      await expect(
+        this.contract.mint(1234, {
+          value: ethers.utils.parseEther("500"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1234, "diamond");
+
+      await expect(await this.contract.tokenURI(1234)).to.equal(
+        "ipfs://abcd.../diamond"
+      );
+    });
+
+    it("should have donationType == PLATINUM", async function() {
+      await expect(
+        this.contract.mint(1234, {
+          value: ethers.utils.parseEther("1000"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1234, "platinum");
+
+      await expect(await this.contract.tokenURI(1234)).to.equal(
+        "ipfs://abcd.../platinum"
+      );
     });
   });
 
