@@ -1,11 +1,11 @@
 // scripts/deploy.js
+
 async function main() {
-  // We get the contract to deploy
-  const Box = await ethers.getContractFactory("Box");
-  console.log("Deploying Box...");
-  const box = await Box.deploy();
-  await box.deployed();
-  console.log("Box deployed to:", box.address);
+  const PixelDevsUkraineDonation = await ethers.getContractFactory("PixelDevsUkraineDonation");
+  console.log("Deploying PixelDevsUkraineDonation...");
+  const pixelDevsUkraineDonation = await PixelDevsUkraineDonation.deploy();
+  await pixelDevsUkraineDonation.deployed();
+  console.log("PixelDevsUkraineDonation deployed to:", pixelDevsUkraineDonation.address);
 }
 
 main()
