@@ -1,31 +1,32 @@
 {
-  "name": "ukraine-donation-nft",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "hardhat test --network hardhat",
-    "deploy": "hardhat compile && hardhat run --network localhost scripts/deploy.js",
-    "console": "hardhat console --network localhost",
-    "deploy:mumbai": "hardhat compile && hardhat run --network mumbai scripts/deploy.js",
-    "console:mumbai": "hardhat console --network mumbai"
-  },
-  "engines": {
-    "npm": ">=6.12.0",
-    "node": ">=12.13.0"
-  },
-  "keywords": [],
-  "author": "Developer DAO",
-  "license": "MIT",
-  "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.3",
-    "@nomiclabs/hardhat-etherscan": "^3.0.3",
-    "@openzeppelin/contracts": "^4.4.1",
-    "chai": "^4.3.4",
-    "dotenv": "^16.0.0",
-    "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.5.2",
-    "hardhat": "^2.8.0",
-    "solhint": "^3.3.6"
-  }
+    "name": "ukraine-donation-nft",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "compile": "hardhat compile && cp ./artifacts/contracts/PixelDevsUkraineDonation.sol/PixelDevsUkraineDonation.json ../abis",
+        "test": "hardhat test --network hardhat",
+        "deploy": "hardhat compile && hardhat run --network localhost scripts/deploy.js",
+        "console": "hardhat console --network localhost",
+        "deploy:mumbai": "hardhat compile && hardhat run --network mumbai scripts/deploy.js",
+        "console:mumbai": "hardhat console --network mumbai"
+    },
+    "engines": {
+        "npm": ">=6.12.0",
+        "node": ">=12.13.0"
+    },
+    "keywords": [],
+    "author": "Developer DAO",
+    "license": "MIT",
+    "devDependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.0.3",
+        "@nomiclabs/hardhat-etherscan": "^3.0.3",
+        "@openzeppelin/contracts": "^4.4.1",
+        "chai": "^4.3.4",
+        "dotenv": "^16.0.0",
+        "ethereum-waffle": "^3.4.0",
+        "ethers": "^5.5.2",
+        "hardhat": "^2.8.0",
+        "solhint": "^3.3.6"
+    }
 }
