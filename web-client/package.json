@@ -1,0 +1,87 @@
+{
+    "name": "dao-pixelart-previewer",
+    "version": "0.0.0",
+    "license": "MIT",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "prettier": "prettier --write .",
+        "prettier:watch": "npx onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
+        "style": "npm run prettier && npm run lint"
+    },
+    "dependencies": {
+        "@headlessui/vue": "1.4.3",
+        "@heroicons/vue": "^1.0.5",
+        "@tailwindcss/forms": "^0.3.3",
+        "@tailwindcss/postcss7-compat": "^2.2.17",
+        "@tailwindcss/typography": "^0.4.0",
+        "@walletconnect/web3-provider": "^1.6.6",
+        "animate.css": "^4.1.1",
+        "axios": "^0.24.0",
+        "core-js": "^3.6.5",
+        "ethers": "^5.5.1",
+        "js-confetti": "^0.10.2",
+        "lodash-es": "^4.17.21",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+        "vue": "^3.2.6",
+        "vue-router": "4"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "~4.5.0",
+        "@vue/cli-plugin-eslint": "~4.5.0",
+        "@vue/cli-service": "~4.5.0",
+        "@vue/compiler-sfc": "^3.0.0",
+        "autoprefixer": "^9",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^6.7.2",
+        "eslint-config-prettier": "^6.0.0",
+        "eslint-plugin-vue": "^7.0.0",
+        "postcss": "^7",
+        "prettier": "2.4.1"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/vue3-recommended",
+            "prettier"
+        ],
+        "parserOptions": {
+            "parser": "babel-eslint"
+        },
+        "rules": {
+            "vue/html-indent": [
+                "error",
+                4
+            ],
+            "vue/html-self-closing": [
+                "error",
+                {
+                    "html": {
+                        "void": "always",
+                        "normal": "always",
+                        "component": "always"
+                    },
+                    "svg": "always",
+                    "math": "always"
+                }
+            ],
+            "vue/max-attributes-per-line": [
+                "off"
+            ],
+            "vue/no-mutating-props": 0,
+            "vue/require-default-prop": 0,
+            "vue/singleline-html-element-content-newline": [
+                "off"
+            ]
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
+}
