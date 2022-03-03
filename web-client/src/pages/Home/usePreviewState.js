@@ -1,21 +1,22 @@
 import { computed, ref, reactive } from 'vue'
+import {TIERS} from "../../constants";
 
 export default function usePreviewState() {
-    const variants = ref([
-        { name: 'Bronze', price: 9 },
-        { name: 'Silver', price: 29 },
-        { name: 'Gold', price: 79 },
-        { name: 'Diamond', price: 199 },
-        { name: 'Platinum', price: 499 },
-    ])
+    // const variants = ref([
+    //     { name: 'Bronze', price: 9 },
+    //     { name: 'Silver', price: 29 },
+    //     { name: 'Gold', price: 79 },
+    //     { name: 'Diamond', price: 199 },
+    //     { name: 'Platinum', price: 499 },
+    // ])
 
-    const selected = ref(variants.value[1])
+    const selected = ref(TIERS[1])
     const selectedPriceInDollars = computed(() => {
         return Math.round(selected.value.price * 1.5)
     })
 
     function selectByName(name) {
-        const match = variants.value.find((variant) => variant.name === name)
+        const match = TIERS.find((variant) => variant.name === name)
 
         if (match) {
             selected.value = match
@@ -23,7 +24,6 @@ export default function usePreviewState() {
     }
 
     return {
-        variants,
         selectByName,
         selected,
         selectedPriceInDollars,

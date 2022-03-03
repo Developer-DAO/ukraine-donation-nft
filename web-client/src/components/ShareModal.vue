@@ -123,7 +123,7 @@ watchEffect(async () => {
                     class="mt-3 text-sm text-gray-500 dark:text-gray-300"
                 >
                     <p>
-                        You are the owner of <b>Pixel Dev #{{ token }}</b>. Here is the full JPEG ready to share on social media.
+                        You are the owner of <b>Ukraine Donation NFT #{{ token }}</b>. Here is the full JPEG ready to share on social media.
                     </p>
                 </DialogDescription>
                 <div

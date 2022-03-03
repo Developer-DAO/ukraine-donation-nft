@@ -1,44 +1,39 @@
 import axios from 'axios'
-import PixelAvatarContract from '../../../../abis/PixelAvatars.json'
+import Contract from '../../../../abis/PixelDevsUkraineDonation.json'
 import {inject, unref} from 'vue'
-import { PIXEL_AVATAR_TOKEN, SERVER_URL } from '../../constants'
+import { CONTRACT_TOKEN } from '../../constants'
 import { ethers } from 'ethers'
 
 export default function useContract() {
     const client = inject('web3client')
 
     return {
-        async mint(variant) {
+        async mint(tier) {
+            const value = ethers.utils.parseEther(tier.price.toString())
             const transaction = await client
-                .contract(PIXEL_AVATAR_TOKEN, PixelAvatarContract.abi)
-                .mintWithSignature(
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    {
-                        value: ethers.utils.parseEther(variant.price),
-                    }
-                )
+                .contract(CONTRACT_TOKEN, Contract.abi)
+                .mint({ value })
                 .catch(normalizeContractError)
 
-            await transaction.wait().catch(normalizeContractError)
+            const result = await transaction.wait().catch(normalizeContractError)
+            const event = result.events.find(event => event.event === 'LogTokenMinted')
+
+            return parseInt(event.args[1].toString())
         },
 
-        getOwnerOf(token) {
-            return client
-                .contract(PIXEL_AVATAR_TOKEN, PixelAvatarContract.abi)
-                .ownerOf(token)
-                .catch(() => null)
-        },
-
-        getTokenUri(token) {
-            return client
-                .contract(PIXEL_AVATAR_TOKEN, PixelAvatarContract.abi)
-                .tokenURI(token)
-                .catch(() => null)
-        },
+        // getOwnerOf(token) {
+        //     return client
+        //         .contract(CONTRACT_TOKEN, Contract.abi)
+        //         .ownerOf(token)
+        //         .catch(() => null)
+        // },
+        //
+        // getTokenUri(token) {
+        //     return client
+        //         .contract(CONTRACT_TOKEN, Contract.abi)
+        //         .tokenURI(token)
+        //         .catch(() => null)
+        // },
     }
 }
 

@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "chain": "hardhat node",
         "compile": "hardhat compile && cp ./artifacts/contracts/PixelDevsUkraineDonation.sol/PixelDevsUkraineDonation.json ../abis",
         "test": "hardhat test --network hardhat",
         "deploy": "hardhat compile && hardhat run --network localhost scripts/deploy.js",

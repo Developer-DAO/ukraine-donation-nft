@@ -1,7 +1,7 @@
 <script setup>
 import Button from './ui/Button'
 import Modal from './ui/Modal'
-import { PIXEL_AVATAR_NETWORK } from '../constants'
+import { CONTRACT_NETWORK } from '../constants'
 import { DialogTitle, DialogDescription } from '@headlessui/vue'
 import { WifiIcon, ExternalLinkIcon } from '@heroicons/vue/outline'
 import { defineProps, defineEmits } from 'vue'
@@ -40,7 +40,7 @@ defineEmits(['changeNetwork', 'close', 'retry'])
                         dark:text-gray-100
                     "
                 >
-                    Network: {{ PIXEL_AVATAR_NETWORK.name }}
+                    Network: {{ CONTRACT_NETWORK.name }}
                 </DialogTitle>
                 <DialogDescription class="mt-3">
                     <p class="text-sm text-gray-500 dark:text-gray-300">
@@ -58,26 +58,26 @@ defineEmits(['changeNetwork', 'close', 'retry'])
                     "
                 >
                     <dt class="font-medium">Network name</dt>
-                    <dd class="break-all">{{ PIXEL_AVATAR_NETWORK.name }}</dd>
+                    <dd class="break-all">{{ CONTRACT_NETWORK.name }}</dd>
 
                     <dt class="font-medium">Chain ID</dt>
                     <dd class="break-all">
-                        {{ PIXEL_AVATAR_NETWORK.chainId }}
+                        {{ CONTRACT_NETWORK.chainId }}
                     </dd>
 
                     <dt class="font-medium">RPC URL</dt>
                     <dd class="break-all">
-                        {{ PIXEL_AVATAR_NETWORK.ensAddress }}
+                        {{ CONTRACT_NETWORK.ensAddress }}
                     </dd>
 
                     <dt class="font-medium">Currency Symbol</dt>
                     <dd class="break-all">
-                        {{ PIXEL_AVATAR_NETWORK.currencySymbol }}
+                        {{ CONTRACT_NETWORK.currencySymbol }}
                     </dd>
 
                     <dt class="font-medium">Block Explorer</dt>
                     <dd class="break-all">
-                        {{ PIXEL_AVATAR_NETWORK.blockExplorer }}
+                        {{ CONTRACT_NETWORK.blockExplorer }}
                     </dd>
                 </dl>
             </div>

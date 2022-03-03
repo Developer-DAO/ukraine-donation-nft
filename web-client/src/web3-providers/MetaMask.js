@@ -1,4 +1,4 @@
-import { PIXEL_AVATAR_NETWORK } from '../constants'
+import { CONTRACT_NETWORK } from '../constants'
 
 export default class MetaMask {
     constructor() {
@@ -29,7 +29,7 @@ export default class MetaMask {
     }
 
     async changeNetwork() {
-        const chainId = '0x' + PIXEL_AVATAR_NETWORK.chainId.toString(16)
+        const chainId = '0x' + CONTRACT_NETWORK.chainId.toString(16)
 
         try {
             await this.provider.request({
@@ -46,14 +46,14 @@ export default class MetaMask {
                 params: [
                     {
                         chainId: chainId,
-                        chainName: PIXEL_AVATAR_NETWORK.name,
-                        rpcUrls: [PIXEL_AVATAR_NETWORK.ensAddress],
+                        chainName: CONTRACT_NETWORK.name,
+                        rpcUrls: [CONTRACT_NETWORK.ensAddress],
                         nativeCurrency: {
-                            name: PIXEL_AVATAR_NETWORK.currencySymbol,
-                            symbol: PIXEL_AVATAR_NETWORK.currencySymbol,
+                            name: CONTRACT_NETWORK.currencySymbol,
+                            symbol: CONTRACT_NETWORK.currencySymbol,
                             decimals: 18,
                         },
-                        blockExplorerUrls: [PIXEL_AVATAR_NETWORK.blockExplorer],
+                        blockExplorerUrls: [CONTRACT_NETWORK.blockExplorer],
                     },
                 ],
             })

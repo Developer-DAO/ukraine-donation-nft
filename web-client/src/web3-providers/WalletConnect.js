@@ -1,5 +1,5 @@
 import WalletConnectProvider from '@walletconnect/web3-provider'
-import { INFURA_ID, PIXEL_AVATAR_NETWORK } from '../constants'
+import { INFURA_ID, CONTRACT_NETWORK } from '../constants'
 
 export default class WalletConnect {
     constructor() {
@@ -10,7 +10,7 @@ export default class WalletConnect {
         this.provider = new WalletConnectProvider({
             infuraId: INFURA_ID,
             rpc: {
-                [PIXEL_AVATAR_NETWORK.chainId]: PIXEL_AVATAR_NETWORK.ensAddress,
+                [CONTRACT_NETWORK.chainId]: CONTRACT_NETWORK.ensAddress,
             },
         })
 

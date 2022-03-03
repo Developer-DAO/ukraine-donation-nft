@@ -1,7 +1,7 @@
 <script setup>
 import Button from './ui/Button'
 import Modal from './ui/Modal'
-import { PIXEL_AVATAR_NETWORK } from '../constants'
+import { CONTRACT_NETWORK } from '../constants'
 import { DialogTitle, DialogDescription } from '@headlessui/vue'
 import { ExclamationIcon, ExternalLinkIcon } from '@heroicons/vue/outline'
 import { defineProps, defineEmits } from 'vue'

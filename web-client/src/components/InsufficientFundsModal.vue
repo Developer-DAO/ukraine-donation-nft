@@ -1,7 +1,7 @@
 <script setup>
 import Button from './ui/Button'
 import Modal from './ui/Modal'
-import { PIXEL_AVATAR_NETWORK } from '../constants'
+import { CONTRACT_NETWORK } from '../constants'
 import { DialogTitle, DialogDescription } from '@headlessui/vue'
 import { ExclamationIcon, ExternalLinkIcon } from '@heroicons/vue/outline'
 import { defineProps, defineEmits } from 'vue'
@@ -47,7 +47,7 @@ defineEmits(['close'])
                 >
                     <p>
                         Unfortunately your wallet does not hold enough
-                        <b>{{ PIXEL_AVATAR_NETWORK.currencySymbol }}</b> to
+                        <b>{{ CONTRACT_NETWORK.currencySymbol }}</b> to
                         complete this transaction.
                     </p>
                 </DialogDescription>
@@ -82,7 +82,7 @@ defineEmits(['close'])
                         target="_blank"
                     >
                         <span>How to purchase
-                            {{ PIXEL_AVATAR_NETWORK.currencySymbol }} from FIAT
+                            {{ CONTRACT_NETWORK.currencySymbol }} from FIAT
                             with low fees</span>
                         <ExternalLinkIcon class="h-4 w-4 text-gray-400" />
                     </a>
@@ -100,7 +100,7 @@ defineEmits(['close'])
                         target="_blank"
                     >
                         <span>Convert other crypto to
-                            {{ PIXEL_AVATAR_NETWORK.currencySymbol }}</span>
+                            {{ CONTRACT_NETWORK.currencySymbol }}</span>
                         <ExternalLinkIcon class="h-4 w-4 text-gray-400" />
                     </a>
                 </li>

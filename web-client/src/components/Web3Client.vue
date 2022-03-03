@@ -4,7 +4,7 @@ import NetworkModal from './NetworkModal'
 import WalletConnect from '../web3-providers/WalletConnect'
 import { computed, onBeforeUnmount, provide, ref, watch } from 'vue'
 import { ethers } from 'ethers'
-import { PIXEL_AVATAR_NETWORK } from '../constants'
+import { CONTRACT_NETWORK } from '../constants'
 
 function useClient() {
     const connectedAddress = ref(null)
@@ -80,7 +80,7 @@ function useClient() {
             try {
                 const network = await this._provider().getNetwork()
 
-                return network.chainId === PIXEL_AVATAR_NETWORK.chainId
+                return network.chainId === CONTRACT_NETWORK.chainId
             } catch (e) {
                 //
             }
@@ -89,7 +89,7 @@ function useClient() {
         },
 
         _provider() {
-            const { name, chainId, ensAddress } = PIXEL_AVATAR_NETWORK
+            const { name, chainId, ensAddress } = CONTRACT_NETWORK
 
             return new ethers.providers.Web3Provider(
                 this._instance().provider,

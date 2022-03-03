@@ -1,9 +1,13 @@
 <script setup>
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
+import { ExternalLinkIcon } from '@heroicons/vue/outline'
+import { TIERS } from "../../constants";
 import PolygonLogo from "../../components/ui/PolygonLogo";
 import ConnectWalletModal from "../../components/ConnectWalletModal";
 import {inject} from "vue";
 import Button from "../../components/ui/Button";
+import PurchaseControls from "./PurchaseControls";
+import Spinner from "../../components/ui/Spinner";
 
 const client = inject('web3client')
 const state = inject('previewState')
@@ -31,22 +35,22 @@ const state = inject('previewState')
 
         <div class="mt-10">
             <div class="flex items-center justify-start">
-                <h3 class="text-sm text-gray-900 font-medium">Select variant</h3>
+                <h3 class="text-sm text-gray-900 font-medium">Select a tier</h3>
             </div>
 
             <RadioGroup v-model="state.selected.value" class="mt-4">
-                <RadioGroupLabel class="sr-only"> Choose a variant </RadioGroupLabel>
+                <RadioGroupLabel class="sr-only"> Choose a tier </RadioGroupLabel>
                 <div class="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-3">
                     <RadioGroupOption 
-                        v-for="variant in state.variants.value"
+                        v-for="tier in TIERS"
                         v-slot="{ active, checked }"
-                        :key="variant.name"
-                        :value="variant"
+                        :key="tier.name"
+                        :value="tier"
                         as="template"
                     >
                         <div :class="['bg-white shadow-sm text-gray-900 cursor-pointer', active ? 'ring-2 ring-indigo-500' : '', 'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6']">
                             <RadioGroupLabel as="p">
-                                {{ variant.name }} &nbsp; {{ variant.price }} <PolygonLogo class="ml-1 inline w-4" />
+                                {{ tier.name }} &nbsp; {{ tier.price }} <PolygonLogo class="ml-1 inline w-4" />
                             </RadioGroupLabel>
                             <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-md pointer-events-none']" aria-hidden="true" />
                         </div>
@@ -69,13 +73,39 @@ const state = inject('previewState')
                 </template>
             </ConnectWalletModal>
 
-            <div v-if="client.isConnected.value" class="animate__animated animate__flash">
-                <Button type="button" color="indigo" class="!font-medium !text-base flex items-center justify-center" @click="open">
-                    <span>
-                        Purchase {{ state.selected.value.name }} Support NFT -->
-                    </span>
-                </Button>
-            </div>
+            <PurchaseControls v-if="client.isConnected.value">
+                <template #purchase="{ purchase, purchaseState, PurchaseStates }">
+                    <div class="animate__animated animate__flash">
+                        <Button
+                            type="button"
+                            color="indigo"
+                            class="!font-medium !text-base flex justify-center space-x-1"
+                            :disabled="purchaseState === PurchaseStates.Loading"
+                            @click="purchase"
+                        >
+                            <span v-if="purchaseState === PurchaseStates.Loading" class="flex items-center justify-center">
+                                <span>Purchasing</span>
+                                <Spinner class="w-4 h-4 ml-2" />
+                            </span>
+                            <span v-else>
+                                Purchase {{ state.selected.value.name }} Support NFT -->
+                            </span>
+                        </Button>
+                    </div>
+                </template>
+
+                <template #share="{ openShareModal }">
+                    <Button
+                        type="button"
+                        color="blackOutline"
+                        class="!font-medium !text-base flex items-center justify-center space-x-1"
+                        @click="openShareModal"
+                    >
+                        <span>Share</span>
+                        <ExternalLinkIcon class="w-4 h-4 ml-4" />
+                    </Button>
+                </template>
+            </PurchaseControls>
         </div>
 
         <div class="border-t border-gray-200 mt-10 pt-10">

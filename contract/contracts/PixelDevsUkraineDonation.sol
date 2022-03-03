@@ -15,8 +15,7 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
     using Counters for Counters.Counter;
 
     /// TODO: Set this to the IPFS base uri before launch
-    string public baseURI =
-        "ipfs://abcd.../";
+    string public baseURI = "ipfs://abcd.../";
 
     uint256 public minimumMintPrice = 12 ether;
 
