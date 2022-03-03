@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "hardhat test --network hardhat",
-    "deploy": "hardhat run --network localhost scripts/deploy.js",
-    "console": "hardhat console --network localhost"
+    "deploy": "hardhat compile && hardhat run --network localhost scripts/deploy.js",
+    "console": "hardhat console --network localhost",
+    "deploy:mumbai": "hardhat compile && hardhat run --network mumbai scripts/deploy.js",
+    "console:mumbai": "hardhat console --network mumbai"
   },
   "engines": {
     "npm": ">=6.12.0",

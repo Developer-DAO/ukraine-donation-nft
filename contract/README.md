@@ -21,6 +21,6 @@ await donation.setBaseURI("ipfs://abc");
   - add your Polygon node RPC URL, for example a url from [Alchemy](https://www.alchemy.com/) or another Polygon node services.
   - add your account private key, for example an account created via MetaMask.
 - ensure your account has some MATIC via <https://faucet.polygon.technology/>
-- test via `npx hardhat console --network mumbai` and run `accounts = await ethers.provider.listAccounts()` and you should see your public account listed there.
-- deploy via `npx hardhat run --network mumbai scripts/deploy.js`
+- test via `yarn console:mumbai` and run `accounts = await ethers.provider.listAccounts()` and you should see your public account listed there.
+- deploy via `yarn deploy:mumbai`
 - you should see it now in Mumbai Polygonscan <https://mumbai.polygonscan.com/> when looking up your public account address used to deploy the contract
