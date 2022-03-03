@@ -23,4 +23,5 @@ await donation.setBaseURI("ipfs://abc");
 - ensure your account has some MATIC via <https://faucet.polygon.technology/>
 - test via `yarn console:mumbai` and run `accounts = await ethers.provider.listAccounts()` and you should see your public account listed there.
 - deploy via `yarn deploy:mumbai`
+- `npx hardhat verify --network mumbai PIXEL_AVATAR_CONTRACT_ADDRESS`
 - you should see it now in Mumbai Polygonscan <https://mumbai.polygonscan.com/> when looking up your public account address used to deploy the contract
