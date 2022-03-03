@@ -1,6 +1,6 @@
-# pixel-devs-ukraine-donation-contract
+# ukraine-donation-nft
 
-![Solidity tests](https://github.com/Developer-DAO/pixel-devs-ukraine-donation-contract/actions/workflows/continuous-integration.yaml/badge.svg)
+![Solidity tests](https://github.com/Developer-DAO/ukraine-donation-nft/actions/workflows/continuous-integration.yaml/badge.svg)
 
 An OpenZeppelin smart contract to support donations to Ukraine DAO for humanitarian efforts.
 
@@ -8,9 +8,11 @@ Donations being sent to: https://twitter.com/Ukraine_DAO/status/1497740751941238
 
 Based on the Developer DAO Pixel Devs design.
 
-## Deploying
+## Polygon Contract
 
-### Deploy to Polygon Mumbai Testnet
+### Deploying
+
+#### Deploy to Polygon Mumbai Testnet
 
 - copy `.env.sample` to `.env`
   - add your Ethereum node RPC URL, for example a url from [Alchemy](https://www.alchemy.com/) or another Ethereum node services.
@@ -30,6 +32,6 @@ const donation = await Donation.attach('<contract address goes here>');
 await donation.setBaseURI("ipfs://abc");
 ```
 
-## Run tests
+### Run tests
 
     npm test
