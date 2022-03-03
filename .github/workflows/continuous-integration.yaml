@@ -12,5 +12,8 @@ jobs:
         with:
           node-version: "16.x"
       - run: node --version
+        working-directory: ./contract
       - run: npm install
+        working-directory: ./contract
       - run: npm test
+        working-directory: ./contract
