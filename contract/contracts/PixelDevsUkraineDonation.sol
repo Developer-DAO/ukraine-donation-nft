@@ -5,11 +5,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
 // import "hardhat/console.sol";
 
 /// @author Developer DAO
 /// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
 contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable {
+    using Counters for Counters.Counter;
+
     /// TODO: Set this to the IPFS base uri before launch
     string public baseURI =
         "ipfs://abcd.../";
@@ -17,8 +21,9 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
     uint256 public minimumMintPrice = 12 ether;
 
     enum DonationType{ BRONZE, SILVER, GOLD, DIAMOND, PLATINUM }
-
     DonationType public donationType;
+
+    Counters.Counter private _tokenIds;
 
     event LogTokenMinted(address indexed minter, uint256 indexed tokenId, string indexed donationType);
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
@@ -58,32 +63,37 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
         minimumMintPrice = _newPrice;
     }
 
-    function mint(
-        uint256 tokenId
-    )
+    function mint()
         public
         payable
         nonReentrant
+        returns (uint256) 
     {
         require(minimumMintPrice <= msg.value, "Not enough MATIC sent");
-        _safeMint(msg.sender, tokenId);
+
+        _tokenIds.increment();
+        uint256 newTokenId = _tokenIds.current();
+
+        _safeMint(msg.sender, newTokenId);
 
         if (msg.value <= 25 ether) {
             donationType = DonationType.BRONZE;
-            emit LogTokenMinted(msg.sender, tokenId, "bronze");
+            emit LogTokenMinted(msg.sender, newTokenId, "bronze");
         } else if (msg.value <= 50 ether) {
             donationType = DonationType.SILVER;
-            emit LogTokenMinted(msg.sender, tokenId, "silver");
+            emit LogTokenMinted(msg.sender, newTokenId, "silver");
         } else if (msg.value <= 100 ether) {
             donationType = DonationType.GOLD;
-            emit LogTokenMinted(msg.sender, tokenId, "gold");
+            emit LogTokenMinted(msg.sender, newTokenId, "gold");
         } else if (msg.value <= 500 ether) {
             donationType = DonationType.DIAMOND;
-            emit LogTokenMinted(msg.sender, tokenId, "diamond");
+            emit LogTokenMinted(msg.sender, newTokenId, "diamond");
         } else {
             donationType = DonationType.PLATINUM;
-            emit LogTokenMinted(msg.sender, tokenId, "platinum");
+            emit LogTokenMinted(msg.sender, newTokenId, "platinum");
         }
+
+        return newTokenId;
     }
 
     function withdraw() public onlyOwner {
