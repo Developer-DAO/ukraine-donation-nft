@@ -18,7 +18,7 @@ const state = inject('previewState')
             <div
                 class="flex items-center w-full space-x-4"
             >
-                <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Support Ukraine Donation NFT</h1>
+                <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl">Support Ukraine Donation NFT</h1>
             </div>
 
             <div v-if="false" class="mt-2">
@@ -29,13 +29,13 @@ const state = inject('previewState')
             </div>
         </div>
 
-        <p class="text-gray-500 mt-6">
+        <p class="text-gray-500 dark:text-gray-400 mt-6">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad beatae doloremque est id in ipsam nisi sit suscipit. Asperiores consequuntur cupiditate eius explicabo facilis nihil nisi nulla placeat quidem voluptatum.
         </p>
 
         <div class="mt-10">
             <div class="flex items-center justify-start">
-                <h3 class="text-sm text-gray-900 font-medium">Select a tier</h3>
+                <h3 class="text-sm text-gray-900 dark:text-gray-100 font-medium">Select a tier</h3>
             </div>
 
             <RadioGroup v-model="state.selected.value" class="mt-4">
@@ -48,11 +48,19 @@ const state = inject('previewState')
                         :value="tier"
                         as="template"
                     >
-                        <div :class="['bg-white shadow-sm text-gray-900 cursor-pointer', active ? 'ring-2 ring-indigo-500' : '', 'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6']">
+                        <div :class="[
+                            'bg-white shadow-sm text-gray-900 cursor-pointer',
+                            active ? 'ring-2 ring-indigo-500 dark:ring-8 dark:ring-indigo-400' : '',
+                            'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6'
+                        ]">
                             <RadioGroupLabel as="p">
                                 {{ tier.name }} &nbsp; {{ tier.price }} <PolygonLogo class="ml-1 inline w-4" />
                             </RadioGroupLabel>
-                            <div :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-md pointer-events-none']" aria-hidden="true" />
+                            <div :class="[
+                                active ? 'border' : 'border-2 dark:border-4',
+                                checked ? 'border-indigo-500 dark:border-indigo-400 dark:ring-2 dark:ring-indigo-400' : 'border-transparent',
+                                'absolute -inset-px rounded-md pointer-events-none'
+                            ]" aria-hidden="true" />
                         </div>
                     </RadioGroupOption>
                 </div>
@@ -60,7 +68,7 @@ const state = inject('previewState')
         </div>
 
         <div class="mt-10 flex flex items-center justify-between">
-            <p class="text-3xl text-gray-900">{{ state.selected.value.price }} MATIC</p>
+            <p class="text-3xl text-gray-900 dark:text-gray-100">{{ state.selected.value.price }} MATIC</p>
             <span class="text-gray-600">~ about ${{ state.selectedPriceInDollars.value }} USD</span>
         </div>
 
@@ -109,8 +117,8 @@ const state = inject('previewState')
         </div>
 
         <div class="border-t border-gray-200 mt-10 pt-10">
-            <h3 class="text-sm font-medium text-gray-900">About this NFT</h3>
-            <div class="mt-4 prose prose-sm text-gray-500">
+            <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">About this NFT</h3>
+            <div class="mt-4 prose prose-sm text-gray-500 dark:text-gray-400">
                 <ul role="list">
                     <li>100% of the donation goes to Ukraine</li>
                     <li>The donation is made through Ukraine DAO</li>
@@ -121,8 +129,8 @@ const state = inject('previewState')
         </div>
 
         <div class="border-t border-gray-200 mt-10 pt-10">
-            <h3 class="text-sm font-medium text-gray-900">Disclaimer</h3>
-            <div class="mt-4 prose prose-sm text-gray-500">
+            <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">Disclaimer</h3>
+            <div class="mt-4 prose prose-sm text-gray-500 dark:text-gray-400">
                 <ul role="list">
                     <li>Developer DAO will at no point have access to funds</li>
                     <li>Developer DAO takes no responsibility for the usage of funds through Ukraine DAO</li>
@@ -131,7 +139,7 @@ const state = inject('previewState')
         </div>
 
         <div class="border-t border-gray-200 mt-10 pt-10">
-            <h3 class="text-sm font-medium text-gray-900">Share</h3>
+            <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">Share</h3>
             <ul role="list" class="flex items-center space-x-6 mt-4">
                 <li>
                     <a href="#" class="flex items-center justify-center w-6 h-6 text-gray-400 hover:text-gray-500">

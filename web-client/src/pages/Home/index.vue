@@ -15,7 +15,7 @@ useRouteParameterSync(previewState)
 provide('previewState', previewState)
 </script>
 <template>
-    <div class="bg-white">
+    <div class="bg-white dark:bg-gray-900">
         <Top />
 
         <div class="mx-auto pt-8 pb-16 px-4 sm:pt-12 sm:pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -32,7 +32,7 @@ provide('previewState', previewState)
                 <ProductDetails />
 
                 <div class="w-full max-w-2xl mx-auto mt-16 lg:max-w-none lg:mt-0 lg:col-span-3">
-                    <h3 class="">FAQ</h3>
+                    <h3 class="text-gray-800 dark:text-gray-200">FAQ</h3>
 
                     <div class="mt-5 border-b border-gray-200" />
 

@@ -82,11 +82,11 @@ watch(client.isConnected, function (connected) {
                     <span class="flex-1 text-left">MetaMask</span>
                     <ExclamationIcon
                         v-if="!MetaMask.isAvailable()"
-                        class="w-4 h-4 text-gray-600"
+                        class="w-4 h-4 text-gray-600 dark:text-gray-300"
                     />
                     <ArrowRightIcon
                         v-else
-                        class="w-4 h-4 text-gray-600"
+                        class="w-4 h-4 text-gray-600 dark:text-gray-300"
                     />
                 </Button>
 
@@ -106,7 +106,7 @@ watch(client.isConnected, function (connected) {
                         alt="Wallet Connect Logo"
                     />
                     <span class="flex-1 text-left">Wallet Connect</span>
-                    <ArrowRightIcon class="w-4 h-4 text-gray-600" />
+                    <ArrowRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
                 </Button>
             </div>
         </Modal>

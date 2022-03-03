@@ -31,8 +31,14 @@ const faqs = [
 ]
 </script>
 
+<style>
+.prose h4 {
+    @apply dark:text-gray-300;
+}
+</style>
+
 <template>
-    <dl class="prose prose-sm max-w-none text-gray-500 space-y-3 divide-y divide-gray-200">
+    <dl class="prose prose-sm max-w-none text-gray-500 dark:text-gray-400 space-y-3 divide-y divide-gray-200">
         <Disclosure v-for="faq in faqs" :key="faq.question" v-slot="{ open }" as="div" class="pt-3">
             <dt class="">
                 <DisclosureButton class="text-left w-full flex justify-between items-center">
