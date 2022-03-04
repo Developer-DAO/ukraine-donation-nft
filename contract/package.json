@@ -10,7 +10,8 @@
         "deploy": "hardhat compile && hardhat run --network localhost scripts/deploy.js",
         "console": "hardhat console --network localhost",
         "deploy:mumbai": "hardhat compile && hardhat run --network mumbai scripts/deploy.js",
-        "console:mumbai": "hardhat console --network mumbai"
+        "console:mumbai": "hardhat console --network mumbai",
+        "style": "prettier --write ."
     },
     "engines": {
         "npm": ">=6.12.0",
@@ -28,6 +29,8 @@
         "ethereum-waffle": "^3.4.0",
         "ethers": "^5.5.2",
         "hardhat": "^2.8.0",
+        "prettier": "^2.5.1",
+        "prettier-plugin-solidity": "^1.0.0-beta.19",
         "solhint": "^3.3.6"
     }
 }

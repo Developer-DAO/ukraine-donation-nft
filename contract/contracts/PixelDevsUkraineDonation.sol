@@ -6,11 +6,16 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+
 // import "hardhat/console.sol";
 
 /// @author Developer DAO
 /// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
-contract PixelDevsUkraineDonation is ERC721URIStorage, ReentrancyGuard, Ownable {
+contract PixelDevsUkraineDonation is
+    ERC721URIStorage,
+    ReentrancyGuard,
+    Ownable
+{
     using Counters for Counters.Counter;
 
     /// TODO: Set this to the IPFS base uri before launch
@@ -19,9 +24,16 @@ contract PixelDevsUkraineDonation is ERC721URIStorage, ReentrancyGuard, Ownable 
     bool public contractState = true;
     Counters.Counter private _tokenIds;
 
-    event LogTokenMinted(address indexed minter, uint256 indexed tokenId, string indexed donationType);
+    event LogTokenMinted(
+        address indexed minter,
+        uint256 indexed tokenId,
+        string indexed donationType
+    );
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
-    event MinimumMintPriceUpdated(uint256 indexed oldValue, uint256 indexed newValue);
+    event MinimumMintPriceUpdated(
+        uint256 indexed oldValue,
+        uint256 indexed newValue
+    );
     event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
 
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
@@ -43,11 +55,7 @@ contract PixelDevsUkraineDonation is ERC721URIStorage, ReentrancyGuard, Ownable 
         minimumMintPrice = _newPrice;
     }
 
-    function mint()
-        public
-        payable
-        nonReentrant
-    {
+    function mint() public payable nonReentrant {
         require(minimumMintPrice <= msg.value, "Not enough MATIC sent");
         require(contractState, "Contract must be active to mint");
 
