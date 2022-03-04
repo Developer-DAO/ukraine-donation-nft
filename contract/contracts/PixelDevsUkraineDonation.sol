@@ -19,6 +19,8 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
 
     uint256 public minimumMintPrice = 12 ether;
 
+    bool public contractState = true;
+
     enum DonationType{ BRONZE, SILVER, GOLD, DIAMOND, PLATINUM }
     DonationType public donationType;
 
@@ -27,6 +29,7 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
     event LogTokenMinted(address indexed minter, uint256 indexed tokenId, string indexed donationType);
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
     event MinimumMintPriceUpdated(uint256 indexed oldValue, uint256 indexed newValue);
+    event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
 
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
         // console.log("PixelDevsUkraineDonation deployed by '%s'", msg.sender);
@@ -69,6 +72,7 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
         returns (uint256) 
     {
         require(minimumMintPrice <= msg.value, "Not enough MATIC sent");
+        require(contractState, "Contract must be active to mint");
 
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
@@ -97,5 +101,10 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
 
     function withdraw() public onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function switchContractState() public onlyOwner {
+        contractState = !contractState;
+        emit ContractStateUpdated(!contractState, contractState);
     }
 }

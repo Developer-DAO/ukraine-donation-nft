@@ -138,6 +138,41 @@ describe("PixelDevsUkraineDonation", function() {
         "ipfs://abcd.../platinum"
       );
     });
+
+    
+    it("should mint if contractState is true", async function() { 
+      await expect(await this.contract.contractState()).to.equal(true);
+
+      await expect(
+        this.contract.mint({
+          value: ethers.utils.parseEther("12"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1, "bronze");
+
+      await expect(await this.contract.ownerOf(1)).to.equal(
+        this.owner.address
+      );
+    });
+
+    it("should fail mint if contractState is false", async function() { 
+      await expect(await this.contract.contractState()).to.equal(true);
+
+      await expect(this.contract.switchContractState())
+      .to.emit(this.contract, "ContractStateUpdated")
+      .withArgs(true, false);
+
+      await expect(await this.contract.contractState()).to.equal(false);
+
+      await expect(
+        this.contract.mint({
+          value: ethers.utils.parseEther("12"),
+        })
+      ).to.be.revertedWith("Contract must be active to mint");
+
+    });
+
   });
 
   describe("when withdrawing", function() {
@@ -169,6 +204,27 @@ describe("PixelDevsUkraineDonation", function() {
 
       await expect(
         this.contract.connect(this.otherUser).withdraw()
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+  });
+
+
+  describe("when switching contract state", function() {
+    it("should change as owner", async function() {
+      await expect(await this.contract.contractState()).to.equal(true);
+
+      await expect(this.contract.switchContractState())
+      .to.emit(this.contract, "ContractStateUpdated")
+      .withArgs(true, false);
+
+      await expect(await this.contract.contractState()).to.equal(false);
+    });
+
+    it("should fail change if not owner", async function() {
+      await expect(await this.contract.contractState()).to.equal(true);
+
+      await expect(
+        this.contract.connect(this.otherUser).switchContractState()
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
