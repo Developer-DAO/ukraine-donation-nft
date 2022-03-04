@@ -139,6 +139,44 @@ describe("PixelDevsUkraineDonation", function() {
       );
     });
 
+    it("should ensure each mint has its own tokenURI (and does not share one at contract level)", async function() {
+      // Fixes https://github.com/Developer-DAO/ukraine-donation-nft/issues/16
+      // where the donationType was being saved at contract level
+      // so each mint would change the tokenURI for everybody.
+      // This test mints two tokens, then checks to make sure first token
+      // didn't lose its tokenURI.
+
+      // mint first one
+      await expect(
+        this.contract.mint({
+          value: ethers.utils.parseEther("1000"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 1, "platinum");
+
+      await expect(await this.contract.tokenURI(1)).to.equal(
+        "ipfs://abcd.../platinum"
+      );
+
+      // mint second one
+      await expect(
+        this.contract.mint({
+          value: ethers.utils.parseEther("12"),
+        })
+      )
+        .to.emit(this.contract, "LogTokenMinted")
+        .withArgs(this.owner.address, 2, "bronze");
+
+      await expect(await this.contract.tokenURI(2)).to.equal(
+        "ipfs://abcd.../bronze"
+      );
+
+      // ensure URI for first token is still correct
+      await expect(await this.contract.tokenURI(1)).to.equal(
+        "ipfs://abcd.../platinum"
+      );
+    });
     
     it("should mint if contractState is true", async function() { 
       await expect(await this.contract.contractState()).to.equal(true);
