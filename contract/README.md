@@ -5,6 +5,10 @@
     yarn install
     yarn test
 
+## Run prettier for consistent formatting
+
+    yarn style
+
 ## Playing with Contract
 
 Interact with it via the console (`npx hardhat console --network mumbai`)
