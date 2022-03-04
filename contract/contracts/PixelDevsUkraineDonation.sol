@@ -11,7 +11,11 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 /// @author Developer DAO
 /// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
-contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable {
+contract PixelDevsUkraineDonation is
+    ERC721Enumerable,
+    ReentrancyGuard,
+    Ownable
+{
     using Counters for Counters.Counter;
 
     /// TODO: Set this to the IPFS base uri before launch
@@ -21,14 +25,27 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
 
     bool public contractState = true;
 
-    enum DonationType{ BRONZE, SILVER, GOLD, DIAMOND, PLATINUM }
+    enum DonationType {
+        BRONZE,
+        SILVER,
+        GOLD,
+        DIAMOND,
+        PLATINUM
+    }
     DonationType public donationType;
 
     Counters.Counter private _tokenIds;
 
-    event LogTokenMinted(address indexed minter, uint256 indexed tokenId, string indexed donationType);
+    event LogTokenMinted(
+        address indexed minter,
+        uint256 indexed tokenId,
+        string indexed donationType
+    );
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
-    event MinimumMintPriceUpdated(uint256 indexed oldValue, uint256 indexed newValue);
+    event MinimumMintPriceUpdated(
+        uint256 indexed oldValue,
+        uint256 indexed newValue
+    );
     event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
 
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
@@ -44,7 +61,12 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
         baseURI = _newBaseURI;
     }
 
-    function tokenURI(uint256 tokenID) public view override returns (string memory) {
+    function tokenURI(uint256 tokenID)
+        public
+        view
+        override
+        returns (string memory)
+    {
         if (donationType == DonationType.BRONZE) {
             return string(bytes.concat(bytes(baseURI), bytes("bronze")));
         } else if (donationType == DonationType.SILVER) {
@@ -65,12 +87,7 @@ contract PixelDevsUkraineDonation is ERC721Enumerable, ReentrancyGuard, Ownable 
         minimumMintPrice = _newPrice;
     }
 
-    function mint()
-        public
-        payable
-        nonReentrant
-        returns (uint256) 
-    {
+    function mint() public payable nonReentrant returns (uint256) {
         require(minimumMintPrice <= msg.value, "Not enough MATIC sent");
         require(contractState, "Contract must be active to mint");
 
