@@ -22,6 +22,7 @@ contract PixelDevsUkraineDonation is
     string public baseURI = "ipfs://abcd.../";
     uint256 public minimumMintPrice = 12 ether;
     bool public contractState = true;
+    address public withdrawWallet; 
     Counters.Counter private _tokenIds;
 
     event LogTokenMinted(
@@ -35,8 +36,10 @@ contract PixelDevsUkraineDonation is
         uint256 indexed newValue
     );
     event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
+    event WithdrawWalletUpdated(address indexed oldValue, address indexed newValue);
 
-    constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
+    constructor(address _withdrawWallet) ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
+        withdrawWallet = _withdrawWallet;
         // console.log("PixelDevsUkraineDonation deployed by '%s'", msg.sender);
     }
 
@@ -80,11 +83,16 @@ contract PixelDevsUkraineDonation is
     }
 
     function withdraw() public onlyOwner {
-        payable(msg.sender).transfer(address(this).balance);
+        payable(withdrawWallet).transfer(address(this).balance);
     }
 
     function switchContractState() public onlyOwner {
         contractState = !contractState;
         emit ContractStateUpdated(!contractState, contractState);
+    }
+
+    function setWithdrawWallet(address _withdrawWallet) public onlyOwner {
+        emit WithdrawWalletUpdated(withdrawWallet, _withdrawWallet);
+        withdrawWallet = _withdrawWallet;
     }
 }

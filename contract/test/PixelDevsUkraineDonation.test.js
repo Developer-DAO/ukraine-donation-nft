@@ -10,13 +10,14 @@ describe('PixelDevsUkraineDonation', function () {
             'PixelDevsUkraineDonation'
         );
 
-        const [owner, addr1] = await ethers.getSigners();
+        const [owner, withdrawUser, addr2] = await ethers.getSigners();
         this.owner = owner;
-        this.otherUser = addr1;
+        this.withdrawUser = withdrawUser;
+        this.otherUser = addr2;
     });
 
     beforeEach(async function () {
-        this.contract = await this.Contract.deploy();
+        this.contract = await this.Contract.deploy(this.withdrawUser.address);
         await this.contract.deployed();
     });
 
@@ -220,26 +221,33 @@ describe('PixelDevsUkraineDonation', function () {
     });
 
     describe('when withdrawing', function () {
-        it('should withdraw as owner', async function () {
+        it('should withdraw as owner to withdraw wallet address', async function () {
             await expect(
                 this.contract.mint({
                     value: ethers.utils.parseEther('12'),
                 })
             );
 
-            const balanceBefore = await ethers.provider.getBalance(
-                this.owner.address
+            await expect(await this.contract.ownerOf(1)).to.equal(
+              this.owner.address
             );
+
+            const balanceBefore = await ethers.provider.getBalance(
+              this.withdrawUser.address
+            );
+            
             const w = await this.contract.withdraw();
+
+
             const balanceAfter = await ethers.provider.getBalance(
-                this.owner.address
+              this.withdrawUser.address
             );
 
             // should be close to 12 MATIC (12 - gas fees)
             await expect(
-                balanceAfter
-                    .sub(balanceBefore)
-                    .gt(ethers.utils.parseEther('11'))
+              balanceAfter
+                  .sub(balanceBefore)
+                  .gt(ethers.utils.parseEther('11'))
             ).to.be.true;
         });
 
@@ -274,5 +282,20 @@ describe('PixelDevsUkraineDonation', function () {
                 this.contract.connect(this.otherUser).switchContractState()
             ).to.be.revertedWith('Ownable: caller is not the owner');
         });
+    });
+
+    describe('when setting withdraw wallet', function() {
+      it('should change as owner', async function () { 
+        await expect(this.contract.setWithdrawWallet(this.otherUser.address))
+          .to.emit(this.contract, 'WithdrawWalletUpdated')
+          .withArgs(this.withdrawUser.address, this.otherUser.address);
+
+        await expect(await this.contract.withdrawWallet()).to.equal(this.otherUser.address);
+      });
+
+      it('should fail change if not owner', async function () { 
+        await expect(this.contract.connect(this.otherUser).setWithdrawWallet(this.otherUser.address))
+          .to.be.revertedWith('Ownable: caller is not the owner');
+      });
     });
 });
