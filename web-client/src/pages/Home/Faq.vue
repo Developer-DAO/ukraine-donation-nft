@@ -30,23 +30,39 @@ const faqs = [
     },
 ]
 </script>
-
-<style>
-.prose h4 {
-    @apply dark:text-gray-300;
-}
-</style>
-
 <template>
-    <dl class="prose prose-sm max-w-none text-gray-500 dark:text-gray-400 space-y-3 divide-y divide-gray-200">
-        <Disclosure v-for="faq in faqs" :key="faq.question" v-slot="{ open }" as="div" class="pt-3">
+    <dl
+        class="
+            prose prose-sm
+            max-w-none
+            text-gray-500
+            dark:text-gray-400
+            space-y-3
+            divide-y divide-gray-200
+        "
+    >
+        <Disclosure
+            v-for="faq in faqs"
+            :key="faq.question"
+            v-slot="{ open }"
+            as="div"
+            class="pt-3"
+        >
             <dt class="">
-                <DisclosureButton class="text-left w-full flex justify-between items-center">
+                <DisclosureButton
+                    class="text-left w-full flex justify-between items-center"
+                >
                     <h4>
                         {{ faq.question }}
                     </h4>
                     <span class="ml-6 h-7 flex items-center text-gray-400">
-                        <ChevronDownIcon :class="[open ? '-rotate-180' : 'rotate-0', 'h-6 w-6 transform']" aria-hidden="true" />
+                        <ChevronDownIcon
+                            :class="[
+                                open ? '-rotate-180' : 'rotate-0',
+                                'h-6 w-6 transform',
+                            ]"
+                            aria-hidden="true"
+                        />
                     </span>
                 </DisclosureButton>
             </dt>
@@ -58,3 +74,8 @@ const faqs = [
         </Disclosure>
     </dl>
 </template>
+<style>
+.prose h4 {
+    @apply dark:text-gray-300;
+}
+</style>

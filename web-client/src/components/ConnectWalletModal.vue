@@ -3,14 +3,18 @@ import Button from './ui/Button'
 import Modal from './ui/Modal'
 import MetaMask from '../web3-providers/MetaMask'
 import { DialogTitle, DialogDescription } from '@headlessui/vue'
-import { ArrowRightIcon, LockClosedIcon, ExclamationIcon } from '@heroicons/vue/solid'
+import {
+    ArrowRightIcon,
+    LockClosedIcon,
+    ExclamationIcon,
+} from '@heroicons/vue/solid'
 
-import {ref, inject, watch} from 'vue'
+import { ref, inject, watch } from 'vue'
 
 const client = inject('web3client')
 const show = ref(false)
-const open = () => show.value = true
-const close = () => show.value = false
+const open = () => (show.value = true)
+const close = () => (show.value = false)
 
 watch(client.isConnected, function (connected) {
     if (connected) {
@@ -27,17 +31,17 @@ watch(client.isConnected, function (connected) {
             <div>
                 <div
                     class="
-                    mx-auto
-                    flex
-                    items-center
-                    justify-center
-                    h-12
-                    w-12
-                    rounded-full
-                    bg-purple-100
-                    text-purple-600
-                    dark:bg-purple-500 dark:text-purple-100
-                "
+                        mx-auto
+                        flex
+                        items-center
+                        justify-center
+                        h-12
+                        w-12
+                        rounded-full
+                        bg-purple-100
+                        text-purple-600
+                        dark:bg-purple-500 dark:text-purple-100
+                    "
                 >
                     <LockClosedIcon class="h-6 w-6" aria-hidden="true" />
                 </div>
@@ -45,12 +49,12 @@ watch(client.isConnected, function (connected) {
                     <DialogTitle
                         as="h3"
                         class="
-                        text-lg
-                        leading-6
-                        font-medium
-                        text-gray-900
-                        dark:text-gray-100
-                    "
+                            text-lg
+                            leading-6
+                            font-medium
+                            text-gray-900
+                            dark:text-gray-100
+                        "
                     >
                         Connect your wallet
                     </DialogTitle>
@@ -68,11 +72,7 @@ watch(client.isConnected, function (connected) {
                     class="flex items-center"
                     color="blackOutline"
                     :disabled="!MetaMask.isAvailable()"
-                    @click="
-                        client.connect(
-                            client.supportedProviders.MetaMask
-                        )
-                    "
+                    @click="client.connect(client.supportedProviders.MetaMask)"
                 >
                     <img
                         src="/img/metamask.png"
@@ -95,9 +95,7 @@ watch(client.isConnected, function (connected) {
                     class="flex items-center"
                     color="blackOutline"
                     @click="
-                        client.connect(
-                            client.supportedProviders.WalletConnect
-                        )
+                        client.connect(client.supportedProviders.WalletConnect)
                     "
                 >
                     <img
@@ -106,7 +104,9 @@ watch(client.isConnected, function (connected) {
                         alt="Wallet Connect Logo"
                     />
                     <span class="flex-1 text-left">Wallet Connect</span>
-                    <ArrowRightIcon class="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                    <ArrowRightIcon
+                        class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                    />
                 </Button>
             </div>
         </Modal>

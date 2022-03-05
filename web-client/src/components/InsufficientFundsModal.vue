@@ -47,8 +47,8 @@ defineEmits(['close'])
                 >
                     <p>
                         Unfortunately your wallet does not hold enough
-                        <b>{{ CONTRACT_NETWORK.currencySymbol }}</b> to
-                        complete this transaction.
+                        <b>{{ CONTRACT_NETWORK.currencySymbol }}</b> to complete
+                        this transaction.
                     </p>
                 </DialogDescription>
             </div>
@@ -82,8 +82,8 @@ defineEmits(['close'])
                         target="_blank"
                     >
                         <span>How to purchase
-                            {{ CONTRACT_NETWORK.currencySymbol }} from FIAT
-                            with low fees</span>
+                            {{ CONTRACT_NETWORK.currencySymbol }} from FIAT with
+                            low fees</span>
                         <ExternalLinkIcon class="h-4 w-4 text-gray-400" />
                     </a>
                 </li>

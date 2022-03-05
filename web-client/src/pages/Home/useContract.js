@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Contract from '../../../../abis/PixelDevsUkraineDonation.json'
-import {inject, unref} from 'vue'
+import { inject, unref } from 'vue'
 import { CONTRACT_TOKEN } from '../../constants'
 import { ethers } from 'ethers'
 
@@ -15,8 +15,12 @@ export default function useContract() {
                 .mint({ value })
                 .catch(normalizeContractError)
 
-            const result = await transaction.wait().catch(normalizeContractError)
-            const event = result.events.find(event => event.event === 'LogTokenMinted')
+            const result = await transaction
+                .wait()
+                .catch(normalizeContractError)
+            const event = result.events.find(
+                (event) => event.event === 'LogTokenMinted'
+            )
 
             return parseInt(event.args[1].toString())
         },

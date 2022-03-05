@@ -16,7 +16,8 @@ const colorClass = computed(() => {
     const colors = {
         black: 'bg-black text-white border-black dark:bg-gray-100 dark:border-gray-100 dark:text-black dark:font-medium disabled:border-0',
         indigo: 'bg-indigo-600 border border-transparent text-white hover:bg-indigo-700 disabled:opacity-60',
-        blackOutline: 'bg-white text-gray-900 border-black dark:bg-transparent dark:border-white dark:text-white disabled:opacity-60',
+        blackOutline:
+            'bg-white text-gray-900 border-black dark:bg-transparent dark:border-white dark:text-white disabled:opacity-60',
     }
 
     return colors[props.color]

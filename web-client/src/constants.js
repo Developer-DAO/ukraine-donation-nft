@@ -18,7 +18,7 @@ export const TIERS = [
 ]
 
 if (process.env.VUE_APP_TEST_AMOUNTS) {
-    TIERS.forEach(tier => {
+    TIERS.forEach((tier) => {
         tier.price = tier.price / 800
     })
 }

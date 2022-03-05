@@ -1,5 +1,5 @@
 import { computed, ref, reactive } from 'vue'
-import {TIERS} from "../../constants";
+import { TIERS } from '../../constants'
 
 export default function usePreviewState() {
     // const variants = ref([

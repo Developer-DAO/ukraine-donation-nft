@@ -34,6 +34,9 @@ import { useLaunchCounter } from '../../components/LaunchBanner'
 
 <template>
     <div class="space-y-4">
-        <img src="https://storage.opensea.io/files/82e2d7fa56b8f9bb76e1dca83ee21d26.svg" class="rounded-md" />
+        <img
+            src="https://storage.opensea.io/files/82e2d7fa56b8f9bb76e1dca83ee21d26.svg"
+            class="rounded-md"
+        />
     </div>
 </template>

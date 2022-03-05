@@ -85,7 +85,8 @@ watch(client.isConnected, async (isConnected) => {
                     class="mb-3 flex items-center space-x-1"
                     color="green"
                 >
-                    <span>Successfully purchased <b>Ukraine Donation NFT #{{ purchasedToken }}</b></span>
+                    <span>Successfully purchased
+                        <b>Ukraine Donation NFT #{{ purchasedToken }}</b></span>
                     <CheckIcon class="w-4 h-4" />
                 </Alert>
 
@@ -98,14 +99,24 @@ watch(client.isConnected, async (isConnected) => {
                     Error: {{ errorMessage }}
                 </Alert>
 
-                <div v-if="purchaseState !== PurchaseStates.Success" :key="'PurchaseButton'">
-                    <slot name="purchase" v-bind="{ purchase, purchaseState, PurchaseStates, openShareModal }" />
+                <div
+                    v-if="purchaseState !== PurchaseStates.Success"
+                    :key="'PurchaseButton'"
+                >
+                    <slot
+                        name="purchase"
+                        v-bind="{
+                            purchase,
+                            purchaseState,
+                            PurchaseStates,
+                            openShareModal,
+                        }"
+                    />
                 </div>
                 <div v-else :key="'ShareButton'">
                     <slot name="share" v-bind="{ openShareModal }" />
                 </div>
             </transition-group>
-
 
             <InsufficientFundsModal
                 :show="showModal === 'insufficient_funds'"
