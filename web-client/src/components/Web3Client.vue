@@ -76,6 +76,12 @@ function useClient() {
             return new ethers.Contract(token, contract, provider.getSigner())
         },
 
+        readContract(token, contract, rpc) {
+            const provider = new ethers.providers.JsonRpcProvider(rpc)
+
+            return new ethers.Contract(token, contract, provider)
+        },
+
         async _checkCorrectNetwork() {
             try {
                 const network = await this._provider().getNetwork()

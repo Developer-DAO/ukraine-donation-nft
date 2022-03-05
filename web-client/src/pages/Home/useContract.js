@@ -1,8 +1,10 @@
 import axios from 'axios'
 import Contract from '../../../../abis/PixelDevsUkraineDonation.json'
 import { inject, unref } from 'vue'
-import { CONTRACT_TOKEN } from '../../constants'
+import { CONTRACT_TOKEN, TIERS } from '../../constants'
 import { ethers } from 'ethers'
+
+let cachedTierPrices = {}
 
 export default function useContract() {
     const client = inject('web3client')
@@ -25,6 +27,23 @@ export default function useContract() {
             return parseInt(event.args[1].toString())
         },
 
+        async getTierPrice(tier) {
+            if (typeof cachedTierPrices[tier] === 'undefined') {
+                const price = ethers.utils.formatEther(
+                    await client
+                        .readContract(CONTRACT_TOKEN, Contract.abi)
+                        .tiers(tier)
+                )
+
+                cachedTierPrices[tier] =
+                    parseInt(price) > 0
+                        ? Math.round(parseInt(price))
+                        : parseFloat(price)
+            }
+
+            return cachedTierPrices[tier]
+        },
+
         // getOwnerOf(token) {
         //     return client
         //         .contract(CONTRACT_TOKEN, Contract.abi)
@@ -32,12 +51,12 @@ export default function useContract() {
         //         .catch(() => null)
         // },
         //
-        // getTokenUri(token) {
-        //     return client
-        //         .contract(CONTRACT_TOKEN, Contract.abi)
-        //         .tokenURI(token)
-        //         .catch(() => null)
-        // },
+        getTokenUri(token) {
+            return client
+                .contract(CONTRACT_TOKEN, Contract.abi)
+                .tokenURI(token)
+                .catch(() => null)
+        },
     }
 }
 

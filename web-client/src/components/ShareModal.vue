@@ -51,15 +51,15 @@ async function getIpfs(ipfsUrl, config = {}) {
 }
 
 async function getImageSrc(token) {
-    const ipfsMetaUrl = await avatarContract.getTokenUri(token)
+    const ipfsImageUrl = await avatarContract.getTokenUri(token)
 
-    if (ipfsMetaUrl) {
-        const meta = await getIpfs(ipfsMetaUrl)
+    if (ipfsImageUrl) {
+        // const meta = await getIpfs(ipfsImageUrl)
 
         // We'll send a HEAD request to two CDNs and see who replies first.
         // Once the first replies we'll know that they have cached the image
         // and we'll use that CDN to display the NFT in the HTML image tag.
-        const image = await getIpfs(meta.data.image, { responseType: 'blob' })
+        const image = await getIpfs(ipfsImageUrl, { responseType: 'blob' })
 
         return window.URL.createObjectURL(image.data)
     }
@@ -132,8 +132,8 @@ watchEffect(async () => {
                         mt-5
                         bg-blue-100
                         rounded-md
-                        min-h-[16rem]
-                        md:min-h-[22rem]
+                        min-h-[12rem]
+                        md:min-h-[16rem]
                         flex
                         items-center
                         justify-center

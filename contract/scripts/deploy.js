@@ -1,16 +1,26 @@
 // scripts/deploy.js
 
 async function main() {
-    const PixelDevsUkraineDonation = await ethers.getContractFactory(
+    const contract = await ethers.getContractFactory(
         'PixelDevsUkraineDonation'
     );
-    console.log('Deploying PixelDevsUkraineDonation...');
-    const pixelDevsUkraineDonation = await PixelDevsUkraineDonation.deploy();
-    await pixelDevsUkraineDonation.deployed();
-    console.log(
-        'PixelDevsUkraineDonation deployed to:',
-        pixelDevsUkraineDonation.address
-    );
+
+    console.log('Deploying contract...');
+
+    const deployedContract = await contract.deploy();
+    await deployedContract.deployed();
+
+    console.log('Contract deployed to:', deployedContract.address);
+
+    const prices = [9, 29, 79, 199, 499, 999]
+        .map((price) =>
+            process.env.DUMMY_PRICING === 'true' ? price / 1000 : price
+        )
+        .map((price) => ethers.utils.parseEther(price.toString()));
+
+    await deployedContract.setTierPricing(...prices);
+
+    console.log('Updated tier pricing');
 }
 
 main()
