@@ -17,17 +17,3 @@ export const TIER_NAMES = [
     'diamond',
     'platinum',
 ]
-
-// export const TIERS = [
-//     { name: 'Bronze', price: 9 },
-//     { name: 'Silver', price: 29 },
-//     { name: 'Gold', price: 79 },
-//     { name: 'Diamond', price: 199 },
-//     { name: 'Platinum', price: 499 },
-// ]
-//
-// if (process.env.VUE_APP_TEST_AMOUNTS) {
-//     TIERS.forEach((tier) => {
-//         tier.price = tier.price / 800
-//     })
-// }
