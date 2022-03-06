@@ -10,15 +10,19 @@ describe('PixelDevsUkraineDonation', function () {
             'PixelDevsUkraineDonation'
         );
 
-        const [owner, withdrawUser, addr2] = await ethers.getSigners();
+        const [owner, addr2] = await ethers.getSigners();
         this.owner = owner;
-        this.withdrawUser = withdrawUser;
         this.otherUser = addr2;
     });
 
     beforeEach(async function () {
-        this.contract = await this.Contract.deploy(this.withdrawUser.address);
+        this.contract = await this.Contract.deploy();
         await this.contract.deployed();
+    });
+
+    beforeEach(async function () {
+        this.defaultAdminRole = await this.contract.DEFAULT_ADMIN_ROLE();
+        this.withdrawRole = await this.contract.WITHDRAW_ROLE();
     });
 
     describe('when setting properties', function () {
@@ -221,7 +225,16 @@ describe('PixelDevsUkraineDonation', function () {
     });
 
     describe('when withdrawing', function () {
-        it('should withdraw as owner to withdraw wallet address', async function () {
+        it('should withdraw as user with withdraw role to withdraw wallet address', async function () {
+
+            const beforeWithdrawWallet = await this.contract.withdrawWallet(); 
+
+            await expect(this.contract.setWithdrawWallet(this.otherUser.address))
+              .to.emit(this.contract, 'WithdrawWalletUpdated')
+              .withArgs(beforeWithdrawWallet, this.otherUser.address);
+    
+            await expect(await this.contract.withdrawWallet()).to.equal(this.otherUser.address);
+
             await expect(
                 this.contract.mint({
                     value: ethers.utils.parseEther('12'),
@@ -233,14 +246,14 @@ describe('PixelDevsUkraineDonation', function () {
             );
 
             const balanceBefore = await ethers.provider.getBalance(
-              this.withdrawUser.address
+              this.otherUser.address
             );
             
             const w = await this.contract.withdraw();
 
 
             const balanceAfter = await ethers.provider.getBalance(
-              this.withdrawUser.address
+              this.otherUser.address
             );
 
             // should be close to 12 MATIC (12 - gas fees)
@@ -251,21 +264,25 @@ describe('PixelDevsUkraineDonation', function () {
             ).to.be.true;
         });
 
-        it('should fail withdraw if not owner', async function () {
+        it('should fail withdraw if user does not have withdraw role', async function () {
             await expect(
                 this.contract.mint({
                     value: ethers.utils.parseEther('12'),
                 })
             );
 
+            await expect(await this.contract.ownerOf(1)).to.equal(
+                this.owner.address
+            );
+
             await expect(
                 this.contract.connect(this.otherUser).withdraw()
-            ).to.be.revertedWith('Ownable: caller is not the owner');
+            ).to.be.revertedWith(`AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${this.withdrawRole}`);
         });
     });
 
     describe('when switching contract state', function () {
-        it('should change as owner', async function () {
+        it('should change as admin', async function () {
             await expect(await this.contract.contractState()).to.equal(true);
 
             await expect(this.contract.switchContractState())
@@ -275,27 +292,30 @@ describe('PixelDevsUkraineDonation', function () {
             await expect(await this.contract.contractState()).to.equal(false);
         });
 
-        it('should fail change if not owner', async function () {
+        it('should fail change if not admin', async function () {
             await expect(await this.contract.contractState()).to.equal(true);
 
             await expect(
                 this.contract.connect(this.otherUser).switchContractState()
-            ).to.be.revertedWith('Ownable: caller is not the owner');
+            ).to.be.revertedWith(`AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${this.defaultAdminRole}`);
         });
     });
 
     describe('when setting withdraw wallet', function() {
-      it('should change as owner', async function () { 
+      it('should change as admin', async function () { 
+
+        const beforeWithdrawWallet = await this.contract.withdrawWallet(); 
+
         await expect(this.contract.setWithdrawWallet(this.otherUser.address))
           .to.emit(this.contract, 'WithdrawWalletUpdated')
-          .withArgs(this.withdrawUser.address, this.otherUser.address);
+          .withArgs(beforeWithdrawWallet, this.otherUser.address);
 
         await expect(await this.contract.withdrawWallet()).to.equal(this.otherUser.address);
       });
 
-      it('should fail change if not owner', async function () { 
+      it('should fail change if not admin', async function () { 
         await expect(this.contract.connect(this.otherUser).setWithdrawWallet(this.otherUser.address))
-          .to.be.revertedWith('Ownable: caller is not the owner');
+          .to.be.revertedWith(`AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${this.defaultAdminRole}`);
       });
     });
 });
