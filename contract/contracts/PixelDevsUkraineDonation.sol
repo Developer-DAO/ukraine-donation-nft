@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -14,7 +14,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract PixelDevsUkraineDonation is
     ERC721URIStorage,
     ReentrancyGuard,
-    Ownable
+    AccessControl
 {
     using Counters for Counters.Counter;
 
@@ -22,7 +22,9 @@ contract PixelDevsUkraineDonation is
     string public baseURI = "ipfs://abcd.../";
     uint256 public minimumMintPrice = 12 ether;
     bool public contractState = true;
+    address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
     Counters.Counter private _tokenIds;
+    bytes32 public constant WITHDRAW_ROLE = keccak256("WITHDRAW_ROLE");
 
     event LogTokenMinted(
         address indexed minter,
@@ -35,21 +37,28 @@ contract PixelDevsUkraineDonation is
         uint256 indexed newValue
     );
     event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
+    event WithdrawWalletUpdated(address indexed oldValue, address indexed newValue);
 
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(WITHDRAW_ROLE, msg.sender);
         // console.log("PixelDevsUkraineDonation deployed by '%s'", msg.sender);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
         return baseURI;
     }
 
-    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+    function setBaseURI(string memory _newBaseURI) public onlyRole(DEFAULT_ADMIN_ROLE) {
         emit BaseURIUpdated(baseURI, _newBaseURI);
         baseURI = _newBaseURI;
     }
 
-    function setMinimumMintPrice(uint256 _newPrice) public onlyOwner {
+    function setMinimumMintPrice(uint256 _newPrice) public onlyRole(DEFAULT_ADMIN_ROLE) {
         // Mint price in wei
         emit MinimumMintPriceUpdated(minimumMintPrice, _newPrice);
         minimumMintPrice = _newPrice;
@@ -79,12 +88,17 @@ contract PixelDevsUkraineDonation is
         _setTokenURI(newTokenId, donationType);
     }
 
-    function withdraw() public onlyOwner {
-        payable(msg.sender).transfer(address(this).balance);
+    function withdraw() public onlyRole(WITHDRAW_ROLE) {
+        payable(withdrawWallet).transfer(address(this).balance);
     }
 
-    function switchContractState() public onlyOwner {
+    function switchContractState() public onlyRole(DEFAULT_ADMIN_ROLE) {
         contractState = !contractState;
         emit ContractStateUpdated(!contractState, contractState);
+    }
+
+    function setWithdrawWallet(address _withdrawWallet) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        emit WithdrawWalletUpdated(withdrawWallet, _withdrawWallet);
+        withdrawWallet = _withdrawWallet;
     }
 }
