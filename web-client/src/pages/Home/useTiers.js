@@ -1,8 +1,6 @@
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import useContract from './useContract'
-import { CONTRACT_TOKEN, TIER_NAMES } from '../../constants'
-import Contract from '../../../../abis/PixelDevsUkraineDonation.json'
-import { ethers } from 'ethers'
+import { TIER_NAMES } from '../../constants'
 
 export default function useTiers() {
     const contract = useContract()
@@ -19,45 +17,4 @@ export default function useTiers() {
     fetchPrices()
 
     return tiers
-
-    // return {
-    //     tiers,
-    //
-    //     get(name) {
-    //
-    //     }
-    // }
-    //
-    // tiers.forEach((tier, index) => contract.getTierPrice())
-    //
-    // const promises =
-    //
-    // client.readContract(CONTRACT_TOKEN, Contract.abi).tiers(name)
-    // const prices = await Promise.all(promises)
-    //
-    // cachedTiers = prices.map((price, index) => ({
-    //     name: TIERS[index],
-    //     price: ethers.utils.formatEther(price)
-    // }))
-    //
-    // contract.getTiers().then(_tiers => {
-    //     tiers.value = _tiers
-    //
-    //     selected.value = _tiers[2]
-    // })
-    //
-    // function selectByName(name) {
-    //     const match = tiers.value.find((variant) => variant.name === name)
-    //
-    //     if (match) {
-    //         selected.value = match
-    //     }
-    // }
-    //
-    // return {
-    //     selectByName,
-    //     selected,
-    //     selectedPriceInDollars,
-    //     tiers,
-    // }
 }
