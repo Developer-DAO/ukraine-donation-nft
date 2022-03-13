@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./@eip2981/ERC2981ContractWideRoyalties.sol";
 
 /// @author Developer DAO
 /// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
 contract PixelDevsUkraineDonation is
     ERC721URIStorage,
     ReentrancyGuard,
-    Ownable
+    AccessControl,
+    ERC2981ContractWideRoyalties
 {
     using Counters for Counters.Counter;
 
@@ -20,6 +22,8 @@ contract PixelDevsUkraineDonation is
         "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
     bool public contractActive = true;
     mapping(string => uint256) public tiers;
+    address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
+    bytes32 public constant WITHDRAW_ROLE = keccak256("WITHDRAW_ROLE");
     Counters.Counter private _tokenIds;
 
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
@@ -34,16 +38,35 @@ contract PixelDevsUkraineDonation is
         uint256 indexed oldValue,
         uint256 indexed newValue
     );
+    event WithdrawWalletUpdated(
+        address indexed oldValue,
+        address indexed newValue
+    );
 
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
-        //
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(WITHDRAW_ROLE, msg.sender);
+        setRoyalties(1000); // set royalties to 10%.
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC721, AccessControl, ERC2981Base)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
         return baseURI;
     }
 
-    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+    function setBaseURI(string memory _newBaseURI)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
         emit BaseURIUpdated(baseURI, _newBaseURI);
         baseURI = _newBaseURI;
     }
@@ -55,7 +78,7 @@ contract PixelDevsUkraineDonation is
         uint256 gold,
         uint256 diamond,
         uint256 platinum
-    ) public onlyOwner {
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
         emit TierPricingUpdated("steel", tiers["steel"], steel);
         emit TierPricingUpdated("bronze", tiers["bronze"], bronze);
         emit TierPricingUpdated("silver", tiers["silver"], silver);
@@ -101,15 +124,27 @@ contract PixelDevsUkraineDonation is
 
         emit LogTokenMinted(msg.sender, _token, _tier);
 
-        _setTokenURI(_token, string(bytes.concat(bytes(_tier), bytes(".png"))));
+        _setTokenURI(_token, _tier);
     }
 
-    function withdraw() public onlyOwner {
-        payable(msg.sender).transfer(address(this).balance);
+    function withdraw() public onlyRole(WITHDRAW_ROLE) {
+        payable(withdrawWallet).transfer(address(this).balance);
     }
 
-    function toggleContractState() public onlyOwner {
+    function toggleContractState() public onlyRole(DEFAULT_ADMIN_ROLE) {
+        emit ContractStateUpdated(contractActive, !contractActive);
         contractActive = !contractActive;
-        emit ContractStateUpdated(!contractActive, contractActive);
+    }
+
+    function setWithdrawWallet(address _withdrawWallet)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
+        emit WithdrawWalletUpdated(withdrawWallet, _withdrawWallet);
+        withdrawWallet = _withdrawWallet;
+    }
+
+    function setRoyalties(uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _setRoyalties(address(this), amount);
     }
 }

@@ -17,9 +17,9 @@ describe('PixelDevsUkraineDonation', function () {
             'PixelDevsUkraineDonation'
         );
 
-        const [owner, addr1] = await ethers.getSigners();
+        const [owner, addr2] = await ethers.getSigners();
         this.owner = owner;
-        this.otherUser = addr1;
+        this.otherUser = addr2;
     });
 
     beforeEach(async function () {
@@ -28,6 +28,11 @@ describe('PixelDevsUkraineDonation', function () {
         await this.contract.setTierPricing(
             ...pricing.map((_, index) => tierPrice(index))
         );
+    });
+
+    beforeEach(async function () {
+        this.defaultAdminRole = await this.contract.DEFAULT_ADMIN_ROLE();
+        this.withdrawRole = await this.contract.WITHDRAW_ROLE();
     });
 
     describe('when setting properties', function () {
@@ -101,7 +106,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'steel');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}steel.png`
+                `${ipfs}steel`
             );
         });
 
@@ -115,7 +120,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'bronze');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}bronze.png`
+                `${ipfs}bronze`
             );
         });
 
@@ -129,7 +134,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'silver');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}silver.png`
+                `${ipfs}silver`
             );
         });
 
@@ -143,7 +148,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'gold');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}gold.png`
+                `${ipfs}gold`
             );
         });
 
@@ -157,7 +162,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'diamond');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}diamond.png`
+                `${ipfs}diamond`
             );
         });
 
@@ -171,7 +176,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'platinum');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}platinum.png`
+                `${ipfs}platinum`
             );
         });
 
@@ -192,7 +197,7 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 1, 'platinum');
 
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}platinum.png`
+                `${ipfs}platinum`
             );
 
             // mint second one
@@ -205,12 +210,12 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(this.owner.address, 2, 'bronze');
 
             await expect(await this.contract.tokenURI(2)).to.equal(
-                `${ipfs}bronze.png`
+                `${ipfs}bronze`
             );
 
             // ensure URI for first token is still correct
             await expect(await this.contract.tokenURI(1)).to.equal(
-                `${ipfs}platinum.png`
+                `${ipfs}platinum`
             );
         });
 
@@ -250,19 +255,37 @@ describe('PixelDevsUkraineDonation', function () {
     });
 
     describe('when withdrawing', function () {
-        it('should withdraw as owner', async function () {
+        it('should withdraw as user with withdraw role to withdraw wallet address', async function () {
+            const beforeWithdrawWallet = await this.contract.withdrawWallet();
+
+            await expect(
+                this.contract.setWithdrawWallet(this.otherUser.address)
+            )
+                .to.emit(this.contract, 'WithdrawWalletUpdated')
+                .withArgs(beforeWithdrawWallet, this.otherUser.address);
+
+            await expect(await this.contract.withdrawWallet()).to.equal(
+                this.otherUser.address
+            );
+
             await expect(
                 this.contract.mint({
                     value: ethers.utils.parseEther('12'),
                 })
             );
 
-            const balanceBefore = await ethers.provider.getBalance(
+            await expect(await this.contract.ownerOf(1)).to.equal(
                 this.owner.address
             );
+
+            const balanceBefore = await ethers.provider.getBalance(
+                this.otherUser.address
+            );
+
             const w = await this.contract.withdraw();
+
             const balanceAfter = await ethers.provider.getBalance(
-                this.owner.address
+                this.otherUser.address
             );
 
             // should be close to 12 MATIC (12 - gas fees)
@@ -273,21 +296,29 @@ describe('PixelDevsUkraineDonation', function () {
             ).to.be.true;
         });
 
-        it('should fail withdraw if not owner', async function () {
+        it('should fail withdraw if user does not have withdraw role', async function () {
             await expect(
                 this.contract.mint({
                     value: ethers.utils.parseEther('12'),
                 })
             );
 
+            await expect(await this.contract.ownerOf(1)).to.equal(
+                this.owner.address
+            );
+
             await expect(
                 this.contract.connect(this.otherUser).withdraw()
-            ).to.be.revertedWith('Ownable: caller is not the owner');
+            ).to.be.revertedWith(
+                `AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${
+                    this.withdrawRole
+                }`
+            );
         });
     });
 
     describe('when switching contract state', function () {
-        it('should change as owner', async function () {
+        it('should change as admin', async function () {
             await expect(await this.contract.contractActive()).to.equal(true);
 
             await expect(this.contract.toggleContractState())
@@ -297,12 +328,94 @@ describe('PixelDevsUkraineDonation', function () {
             await expect(await this.contract.contractActive()).to.equal(false);
         });
 
-        it('should fail change if not owner', async function () {
+        it('should fail change if not admin', async function () {
             await expect(await this.contract.contractActive()).to.equal(true);
 
             await expect(
                 this.contract.connect(this.otherUser).toggleContractState()
-            ).to.be.revertedWith('Ownable: caller is not the owner');
+            ).to.be.revertedWith(
+                `AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${
+                    this.defaultAdminRole
+                }`
+            );
+        });
+    });
+
+    describe('when setting withdraw wallet', function () {
+        it('should change as admin', async function () {
+            const beforeWithdrawWallet = await this.contract.withdrawWallet();
+
+            await expect(
+                this.contract.setWithdrawWallet(this.otherUser.address)
+            )
+                .to.emit(this.contract, 'WithdrawWalletUpdated')
+                .withArgs(beforeWithdrawWallet, this.otherUser.address);
+
+            await expect(await this.contract.withdrawWallet()).to.equal(
+                this.otherUser.address
+            );
+        });
+
+        it('should fail change if not admin', async function () {
+            await expect(
+                this.contract
+                    .connect(this.otherUser)
+                    .setWithdrawWallet(this.otherUser.address)
+            ).to.be.revertedWith(
+                `AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${
+                    this.defaultAdminRole
+                }`
+            );
+        });
+    });
+
+    describe('when getting royaltyInfo', function () {
+        it('should return a royalty of 1000 for a sale value of 10000 - 10%', async function () {
+            const royaltyInfo = await this.contract.royaltyInfo(1, 10000);
+            const receiver = royaltyInfo[0];
+            const royalty = royaltyInfo[1].toNumber();
+
+            await expect(receiver).to.equal(this.contract.address);
+            await expect(royalty).to.equal(1000);
+        });
+
+        it('should return a royalty of 5000 for a sale value of 50000 - 10%', async function () {
+            const royaltyInfo = await this.contract.royaltyInfo(1, 50000);
+            const receiver = royaltyInfo[0];
+            const royalty = royaltyInfo[1].toNumber();
+
+            await expect(receiver).to.equal(this.contract.address);
+            await expect(royalty).to.equal(5000);
+        });
+    });
+
+    describe('when setting royalties', function () {
+        it('should change as admin', async function () {
+            await expect(this.contract.setRoyalties(2000))
+                .to.emit(this.contract, 'RoyaltyUpdated')
+                .withArgs(
+                    this.contract.address,
+                    1000,
+                    this.contract.address,
+                    2000
+                );
+
+            const royaltyInfo = await this.contract.royaltyInfo(1, 10000);
+            const receiver = royaltyInfo[0];
+            const royalty = royaltyInfo[1].toNumber();
+
+            await expect(receiver).to.equal(this.contract.address);
+            await expect(royalty).to.equal(2000);
+        });
+
+        it('should fail change if not admin', async function () {
+            await expect(
+                this.contract.connect(this.otherUser).setRoyalties(2000)
+            ).to.be.revertedWith(
+                `AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${
+                    this.defaultAdminRole
+                }`
+            );
         });
     });
 });
