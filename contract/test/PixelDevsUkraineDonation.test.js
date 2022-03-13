@@ -318,4 +318,47 @@ describe('PixelDevsUkraineDonation', function () {
           .to.be.revertedWith(`AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${this.defaultAdminRole}`);
       });
     });
+
+    describe('when getting royaltyInfo', function(){
+        it('should return a royalty of 1000 for a sale value of 10000 - 10%', async function() { 
+
+            const royaltyInfo = await this.contract.royaltyInfo(1, 10000);
+            const receiver = royaltyInfo[0];
+            const royalty = royaltyInfo[1].toNumber();
+            
+            await expect(receiver).to.equal(this.contract.address);
+            await expect(royalty).to.equal(1000);
+        });
+
+        it('should return a royalty of 5000 for a sale value of 50000 - 10%', async function() { 
+
+            const royaltyInfo = await this.contract.royaltyInfo(1, 50000);
+            const receiver = royaltyInfo[0];
+            const royalty = royaltyInfo[1].toNumber();
+            
+            await expect(receiver).to.equal(this.contract.address);
+            await expect(royalty).to.equal(5000);
+        });
+    });
+
+    describe('when setting royalties', function(){
+        it('should change as admin', async function() { 
+
+            await expect(this.contract.setRoyalties(2000))
+            .to.emit(this.contract, 'RoyaltyUpdated')
+            .withArgs(this.contract.address, 1000, this.contract.address, 2000);
+
+            const royaltyInfo = await this.contract.royaltyInfo(1, 10000);
+            const receiver = royaltyInfo[0];
+            const royalty = royaltyInfo[1].toNumber();
+            
+            await expect(receiver).to.equal(this.contract.address);
+            await expect(royalty).to.equal(2000);
+        });
+
+        it('should fail change if not admin', async function() { 
+            await expect(this.contract.connect(this.otherUser).setRoyalties(2000))
+            .to.be.revertedWith(`AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${this.defaultAdminRole}`);
+        });
+    });
 });

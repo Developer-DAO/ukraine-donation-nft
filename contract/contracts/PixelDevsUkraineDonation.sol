@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./@eip2981/ERC2981ContractWideRoyalties.sol";
 
 // import "hardhat/console.sol";
 
@@ -14,7 +15,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract PixelDevsUkraineDonation is
     ERC721URIStorage,
     ReentrancyGuard,
-    AccessControl
+    AccessControl,
+    ERC2981ContractWideRoyalties
 {
     using Counters for Counters.Counter;
 
@@ -42,10 +44,11 @@ contract PixelDevsUkraineDonation is
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(WITHDRAW_ROLE, msg.sender);
+        setRoyalties(1000); // set royalties to 10%.
         // console.log("PixelDevsUkraineDonation deployed by '%s'", msg.sender);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl, ERC2981Base) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
@@ -93,12 +96,17 @@ contract PixelDevsUkraineDonation is
     }
 
     function switchContractState() public onlyRole(DEFAULT_ADMIN_ROLE) {
+        emit ContractStateUpdated(contractState, !contractState);
         contractState = !contractState;
-        emit ContractStateUpdated(!contractState, contractState);
+        
     }
 
     function setWithdrawWallet(address _withdrawWallet) public onlyRole(DEFAULT_ADMIN_ROLE) {
         emit WithdrawWalletUpdated(withdrawWallet, _withdrawWallet);
         withdrawWallet = _withdrawWallet;
+    }
+
+    function setRoyalties(uint256 amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        _setRoyalties(address(this), amount);
     }
 }
