@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Contract from '../../../../abis/PixelDevsUkraineDonation.json'
-import { inject, unref } from 'vue'
-import { CONTRACT_TOKEN, TIERS } from '../../constants'
+import { inject } from 'vue'
+import { CONTRACT_TOKEN, CONTRACT_NETWORK } from '../../constants'
 import { ethers } from 'ethers'
 
 let cachedTierPrices = {}
@@ -31,7 +31,7 @@ export default function useContract() {
             if (typeof cachedTierPrices[tier] === 'undefined') {
                 const price = ethers.utils.formatEther(
                     await client
-                        .readContract(CONTRACT_TOKEN, Contract.abi)
+                        .readContract(CONTRACT_TOKEN, Contract.abi, CONTRACT_NETWORK.ensAddress)
                         .tiers(tier)
                 )
 
