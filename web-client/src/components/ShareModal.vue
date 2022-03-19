@@ -35,7 +35,7 @@ const loading = ref(true)
 const loadingAttempts = ref(0)
 const loadingText = computed(() => {
     const texts = [
-        'Please hang on while fetching image from IPFS',
+        'Please hang on while fetching preview from IPFS',
         'Still loading. This can sometimes take a while...',
         'Did you know IPFS stands for InterPlanetary File System?',
         'IPFS works on a peer-to-peer basis making it completely decentralized.',
