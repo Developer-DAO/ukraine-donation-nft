@@ -59,7 +59,7 @@ const faqs = [
                         <ChevronDownIcon
                             :class="[
                                 open ? '-rotate-180' : 'rotate-0',
-                                'h-6 w-6 transform',
+                                'h-6 w-6 transform transition',
                             ]"
                             aria-hidden="true"
                         />
