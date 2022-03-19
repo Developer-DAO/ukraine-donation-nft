@@ -83,8 +83,7 @@ async function getImageSrc(token) {
     const ipfsMetaUrl = await avatarContract.getTokenUri(token)
 
     if (ipfsMetaUrl) {
-        const suffix = '.json' // TODO FIX THIS IN CONTRACT
-        const meta = await getIpfs(ipfsMetaUrl + suffix)
+        const meta = await getIpfs(ipfsMetaUrl)
 
         // We'll send a HEAD request to two CDNs and see who replies first.
         // Once the first replies we'll know that they have cached the image
