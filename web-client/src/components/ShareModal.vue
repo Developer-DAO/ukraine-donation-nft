@@ -1,8 +1,10 @@
 <script setup>
 import axios from 'axios'
+import useContract from '../pages/Home/useContract'
 import Button from './ui/Button'
 import Modal from './ui/Modal'
-import useContract from '../pages/Home/useContract'
+import Spinner from './ui/Spinner'
+import JSConfetti from 'js-confetti'
 import { DialogTitle, DialogDescription } from '@headlessui/vue'
 import { CheckIcon, ExternalLinkIcon } from '@heroicons/vue/outline'
 import { OPEN_SEA_URL } from '../constants'
@@ -14,8 +16,6 @@ import {
     watchEffect,
     inject,
 } from 'vue'
-import Spinner from './ui/Spinner'
-import JSConfetti from 'js-confetti'
 
 defineEmits(['close'])
 
@@ -24,7 +24,7 @@ const props = defineProps({
     token: null,
     confetti: {
         type: Boolean,
-        default: false,
+        default: true,
     },
 })
 
@@ -32,6 +32,23 @@ const client = inject('web3client')
 const avatarContract = useContract()
 const image = ref(null)
 const loading = ref(true)
+const loadingAttempts = ref(0)
+const loadingText = computed(() => {
+    const texts = [
+        'Please hang on while fetching preview from IPFS',
+        'Still loading. This can sometimes take a while...',
+        'Did you know IPFS stands for InterPlanetary File System?',
+        'IPFS works on a peer-to-peer basis making it completely decentralized.',
+        'Unfortunately this can also occasionally make it very slow...',
+        'Literally it can take several minutes to download a JPEG',
+        'However the delay you are seeing now is unusual even for IPFS',
+        'This is actually getting quite embarrassing...',
+        'Rest assured you NFT is working and has successfully been claimed',
+        'We might be experiencing CDN issues. You may try to close this modal, and click "Share" to fetch it again.',
+    ]
+
+    return texts[Math.min(texts.length - 1, loadingAttempts.value)]
+})
 const openSeaUrl = computed(
     () => `${OPEN_SEA_URL}/${client.connectedAddress.value}`
 )
@@ -41,20 +58,33 @@ function ipfsCdnUrl(base, ipfs) {
 }
 
 async function getIpfs(ipfsUrl, config = {}) {
-    return await Promise.race([
-        axios.get(
-            ipfsCdnUrl('https://cloudflare-ipfs.com/ipfs/', ipfsUrl),
-            config
-        ),
-        axios.get(ipfsCdnUrl('https://ipfs.io/ipfs/', ipfsUrl), config),
-    ])
+    config.timeout = 30000
+
+    try {
+        return await Promise.any([
+            axios.get(
+                ipfsCdnUrl('https://cloudflare-ipfs.com/ipfs/', ipfsUrl),
+                config
+            ),
+            axios.get(ipfsCdnUrl('https://ipfs.io/ipfs/', ipfsUrl), config),
+        ])
+    } catch (e) {
+        if (props.show && loadingAttempts.value <= 10) {
+            loadingAttempts.value++
+
+            return getIpfs(ipfsUrl, config)
+        }
+
+        throw e
+    }
 }
 
 async function getImageSrc(token) {
     const ipfsMetaUrl = await avatarContract.getTokenUri(token)
 
     if (ipfsMetaUrl) {
-        const meta = await getIpfs(ipfsMetaUrl)
+        const suffix = '.json' // TODO FIX THIS IN CONTRACT
+        const meta = await getIpfs(ipfsMetaUrl + suffix)
 
         // We'll send a HEAD request to two CDNs and see who replies first.
         // Once the first replies we'll know that they have cached the image
@@ -82,7 +112,11 @@ watchEffect(async () => {
         }
     } else {
         // Reset image on close
-        setTimeout(() => (image.value = null), 500)
+        setTimeout(() => {
+            image.value = null
+            loading.value = true
+            loadingAttempts.value = 0
+        }, 500)
     }
 })
 </script>
@@ -124,7 +158,7 @@ watchEffect(async () => {
                 >
                     <p>
                         You are the owner of
-                        <b>Ukraine Donation NFT #{{ token }}</b>. Here is the full JPEG ready to share on social media.
+                        <b>Ukraine Donation NFT #{{ token }}</b>. Here is the full NFT ready to share on social media.
                     </p>
                 </DialogDescription>
                 <div
@@ -139,13 +173,18 @@ watchEffect(async () => {
                         justify-center
                     "
                 >
-                    <img v-if="image" :src="image" class="w-full rounded-md" />
+                    <video v-if="image" class="w-full rounded-md" autoplay loop>
+                        <source :src="image" type="video/mp4" />
+                    </video>
                     <span
                         v-else-if="loading"
                         class="flex flex-col items-center space-y-4"
                     >
                         <Spinner class="h-6 w-6 text-blue-800" />
-                        <span class="text-blue-500 opacity-50">Please hang on while fetching image</span>
+                        <span
+                            class="text-blue-500 opacity-50 px-3"
+                            v-text="loadingText"
+                        />
                     </span>
                 </div>
             </div>

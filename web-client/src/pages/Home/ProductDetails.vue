@@ -1,7 +1,6 @@
 <script setup>
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
 import { ExternalLinkIcon } from '@heroicons/vue/outline'
-import { TIERS } from '../../constants'
 import PolygonLogo from '../../components/ui/PolygonLogo'
 import ConnectWalletModal from '../../components/ConnectWalletModal'
 import { inject } from 'vue'
@@ -62,18 +61,18 @@ const state = inject('previewState')
                 </h3>
             </div>
 
-            <RadioGroup v-model="state.selected.value" class="mt-4">
+            <RadioGroup v-model="state.selectedName.value" class="mt-4">
                 <RadioGroupLabel class="sr-only">
                     Choose a tier
                 </RadioGroupLabel>
                 <div
-                    class="grid grid-cols-3 gap-4 sm:grid-cols-5 lg:grid-cols-3"
+                    class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3"
                 >
                     <RadioGroupOption
-                        v-for="tier in TIERS"
+                        v-for="tier in state.tiers.value"
                         v-slot="{ active, checked }"
                         :key="tier.name"
-                        :value="tier"
+                        :value="tier.name"
                         as="template"
                     >
                         <div
@@ -82,7 +81,7 @@ const state = inject('previewState')
                                 active
                                     ? 'ring-2 ring-indigo-500 dark:ring-8 dark:ring-indigo-400'
                                     : '',
-                                'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6',
+                                'group relative border rounded-md py-4 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6',
                             ]"
                         >
                             <RadioGroupLabel as="p">

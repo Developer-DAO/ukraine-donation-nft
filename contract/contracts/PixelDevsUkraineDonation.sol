@@ -8,8 +8,6 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./@eip2981/ERC2981ContractWideRoyalties.sol";
 
-// import "hardhat/console.sol";
-
 /// @author Developer DAO
 /// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
 contract PixelDevsUkraineDonation is
@@ -20,35 +18,44 @@ contract PixelDevsUkraineDonation is
 {
     using Counters for Counters.Counter;
 
-    /// TODO: Set this to the IPFS base uri before launch
-    string public baseURI = "ipfs://abcd.../";
-    uint256 public minimumMintPrice = 12 ether;
-    bool public contractState = true;
+    string public baseURI =
+        "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
+    bool public contractActive = true;
+    mapping(string => uint256) public tiers;
     address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
-    Counters.Counter private _tokenIds;
     bytes32 public constant WITHDRAW_ROLE = keccak256("WITHDRAW_ROLE");
+    Counters.Counter private _tokenIds;
 
+    event BaseURIUpdated(string indexed oldValue, string indexed newValue);
+    event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
     event LogTokenMinted(
         address indexed minter,
         uint256 indexed tokenId,
-        string indexed donationType
+        string indexed tier
     );
-    event BaseURIUpdated(string indexed oldValue, string indexed newValue);
-    event MinimumMintPriceUpdated(
+    event TierPricingUpdated(
+        string indexed tier,
         uint256 indexed oldValue,
         uint256 indexed newValue
     );
-    event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
-    event WithdrawWalletUpdated(address indexed oldValue, address indexed newValue);
+    event WithdrawWalletUpdated(
+        address indexed oldValue,
+        address indexed newValue
+    );
 
     constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(WITHDRAW_ROLE, msg.sender);
         setRoyalties(1000); // set royalties to 10%.
-        // console.log("PixelDevsUkraineDonation deployed by '%s'", msg.sender);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl, ERC2981Base) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC721, AccessControl, ERC2981Base)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 
@@ -56,52 +63,83 @@ contract PixelDevsUkraineDonation is
         return baseURI;
     }
 
-    function setBaseURI(string memory _newBaseURI) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setBaseURI(string memory _newBaseURI)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
         emit BaseURIUpdated(baseURI, _newBaseURI);
         baseURI = _newBaseURI;
     }
 
-    function setMinimumMintPrice(uint256 _newPrice) public onlyRole(DEFAULT_ADMIN_ROLE) {
-        // Mint price in wei
-        emit MinimumMintPriceUpdated(minimumMintPrice, _newPrice);
-        minimumMintPrice = _newPrice;
+    function setTierPricing(
+        uint256 steel,
+        uint256 bronze,
+        uint256 silver,
+        uint256 gold,
+        uint256 diamond,
+        uint256 platinum
+    ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        emit TierPricingUpdated("steel", tiers["steel"], steel);
+        emit TierPricingUpdated("bronze", tiers["bronze"], bronze);
+        emit TierPricingUpdated("silver", tiers["silver"], silver);
+        emit TierPricingUpdated("gold", tiers["gold"], gold);
+        emit TierPricingUpdated("diamond", tiers["diamond"], diamond);
+        emit TierPricingUpdated("platinum", tiers["platinum"], platinum);
+
+        tiers["steel"] = steel;
+        tiers["bronze"] = bronze;
+        tiers["silver"] = silver;
+        tiers["gold"] = gold;
+        tiers["diamond"] = diamond;
+        tiers["platinum"] = platinum;
     }
 
     function mint() public payable nonReentrant {
-        require(minimumMintPrice <= msg.value, "Not enough MATIC sent");
-        require(contractState, "Contract must be active to mint");
+        require(
+            msg.value >= tiers["steel"],
+            "Please send enough MATIC to meet the minimum threshold of a tier."
+        );
+        require(
+            contractActive,
+            "This contract has been deactivated by the owner and does not currently accept anymore donations."
+        );
 
         _tokenIds.increment();
-        uint256 newTokenId = _tokenIds.current();
-        _safeMint(msg.sender, newTokenId);
+        uint256 _token = _tokenIds.current();
+        _safeMint(msg.sender, _token);
 
-        string memory donationType = "platinum";
+        string memory _tier = "steel";
 
-        if (msg.value <= 25 ether) {
-            donationType = "bronze";
-        } else if (msg.value <= 50 ether) {
-            donationType = "silver";
-        } else if (msg.value <= 100 ether) {
-            donationType = "gold";
-        } else if (msg.value <= 500 ether) {
-            donationType = "diamond";
+        if (msg.value >= tiers["platinum"]) {
+            _tier = "platinum";
+        } else if (msg.value >= tiers["diamond"]) {
+            _tier = "diamond";
+        } else if (msg.value >= tiers["gold"]) {
+            _tier = "gold";
+        } else if (msg.value >= tiers["silver"]) {
+            _tier = "silver";
+        } else if (msg.value >= tiers["bronze"]) {
+            _tier = "bronze";
         }
 
-        emit LogTokenMinted(msg.sender, newTokenId, donationType);
-        _setTokenURI(newTokenId, donationType);
+        emit LogTokenMinted(msg.sender, _token, _tier);
+
+        _setTokenURI(_token, _tier);
     }
 
     function withdraw() public onlyRole(WITHDRAW_ROLE) {
         payable(withdrawWallet).transfer(address(this).balance);
     }
 
-    function switchContractState() public onlyRole(DEFAULT_ADMIN_ROLE) {
-        emit ContractStateUpdated(contractState, !contractState);
-        contractState = !contractState;
-        
+    function toggleContractState() public onlyRole(DEFAULT_ADMIN_ROLE) {
+        emit ContractStateUpdated(contractActive, !contractActive);
+        contractActive = !contractActive;
     }
 
-    function setWithdrawWallet(address _withdrawWallet) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setWithdrawWallet(address _withdrawWallet)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
         emit WithdrawWalletUpdated(withdrawWallet, _withdrawWallet);
         withdrawWallet = _withdrawWallet;
     }

@@ -10,13 +10,23 @@ import "./ERC2981Base.sol";
 abstract contract ERC2981ContractWideRoyalties is ERC2981Base {
     RoyaltyInfo private _royalties;
 
-    event RoyaltyUpdated(address oldRecipient, uint256 oldValue, address newRecipient, uint256 newValue);
+    event RoyaltyUpdated(
+        address oldRecipient,
+        uint256 oldValue,
+        address newRecipient,
+        uint256 newValue
+    );
 
     /// @dev Sets token royalties
     /// @param recipient recipient of the royalties
     /// @param value percentage (using 2 decimals - 10000 = 100, 0 = 0)
     function _setRoyalties(address recipient, uint256 value) internal {
-        emit RoyaltyUpdated(_royalties.recipient, _royalties.amount, recipient, value);
+        emit RoyaltyUpdated(
+            _royalties.recipient,
+            _royalties.amount,
+            recipient,
+            value
+        );
         require(value <= 10000, "ERC2981Royalties: Too high");
         _royalties = RoyaltyInfo(recipient, uint24(value));
     }

@@ -6,8 +6,8 @@ export default function useRouteParameterSync(previewState) {
     const router = useRouter()
 
     onMounted(() => {
-        if (route.query.variant) {
-            previewState.selectByName(route.query.variant)
+        if (route.query.tier) {
+            previewState.selectByName(route.query.tier)
         }
     })
 
@@ -17,7 +17,7 @@ export default function useRouteParameterSync(previewState) {
             query: {
                 ...route.query,
 
-                variant: selected.name,
+                tier: selected.name,
             },
         })
     })

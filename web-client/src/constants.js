@@ -9,16 +9,11 @@ export const CONTRACT_NETWORK = {
     currencySymbol: 'MATIC',
 }
 
-export const TIERS = [
-    { name: 'Bronze', price: 9 },
-    { name: 'Silver', price: 29 },
-    { name: 'Gold', price: 79 },
-    { name: 'Diamond', price: 199 },
-    { name: 'Platinum', price: 499 },
+export const TIER_NAMES = [
+    'steel',
+    'bronze',
+    'silver',
+    'gold',
+    'diamond',
+    'platinum',
 ]
-
-if (process.env.VUE_APP_TEST_AMOUNTS) {
-    TIERS.forEach((tier) => {
-        tier.price = tier.price / 800
-    })
-}
