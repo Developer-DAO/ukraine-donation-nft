@@ -31,7 +31,11 @@ export default function useContract() {
             if (typeof cachedTierPrices[tier] === 'undefined') {
                 const price = ethers.utils.formatEther(
                     await client
-                        .readContract(CONTRACT_TOKEN, Contract.abi, CONTRACT_NETWORK.ensAddress)
+                        .readContract(
+                            CONTRACT_TOKEN,
+                            Contract.abi,
+                            CONTRACT_NETWORK.ensAddress
+                        )
                         .tiers(tier)
                 )
 
