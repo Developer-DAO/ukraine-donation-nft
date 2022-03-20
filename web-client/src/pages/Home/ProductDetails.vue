@@ -7,7 +7,10 @@ import { inject } from 'vue'
 import Button from '../../components/ui/Button'
 import PurchaseControls from './PurchaseControls'
 import Spinner from '../../components/ui/Spinner'
+import Alert from '../../components/ui/Alert'
+import { useCountdown } from '../../components/CountdownBanner'
 
+const countdown = useCountdown()
 const client = inject('web3client')
 const state = inject('previewState')
 </script>
@@ -114,7 +117,11 @@ const state = inject('previewState')
         </div>
 
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-4">
-            <ConnectWalletModal v-show="!client.isConnected.value">
+            <Alert v-if="countdown.closed.value" color="gray">
+                Minting closed.
+            </Alert>
+
+            <ConnectWalletModal v-else v-show="!client.isConnected.value">
                 <template #default="{ open }">
                     <Button
                         type="button"

@@ -7,6 +7,7 @@ import ProductDetails from './ProductDetails'
 import usePreviewState from './usePreviewState'
 import useRouteParameterSync from './useRouteParameterSync'
 const client = inject('web3client')
+import CountdownBanner from '../../components/CountdownBanner'
 
 const previewState = usePreviewState()
 
@@ -16,6 +17,8 @@ provide('previewState', previewState)
 </script>
 <template>
     <div class="bg-white dark:bg-gray-900">
+        <CountdownBanner />
+
         <Top />
 
         <div

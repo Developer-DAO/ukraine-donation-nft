@@ -2,8 +2,8 @@
 import { SpeakerphoneIcon } from '@heroicons/vue/outline'
 import { computed, onUnmounted, ref } from 'vue'
 
-export function useLaunchCounter() {
-    const launchDate = new Date(Date.UTC(2022, 1, 22, 2, 22, 2)).getTime()
+export function useCountdown() {
+    const mintingDeadline = new Date(Date.UTC(2022, 3, 15, 0, 0, 0)).getTime()
 
     const days = ref(null)
     const hours = ref(null)
@@ -17,7 +17,7 @@ export function useLaunchCounter() {
         const now = new Date().getTime()
 
         // Find the distance between now and the count down date
-        distance.value = launchDate - now
+        distance.value = mintingDeadline - now
 
         // Time calculations for days, hours, minutes and seconds
         days.value = Math.floor(distance.value / (1000 * 60 * 60 * 24))
@@ -45,7 +45,7 @@ export function useLaunchCounter() {
         distance,
 
         loading,
-        launched: computed(
+        closed: computed(
             () =>
                 distance.value < 0 ||
                 document.location.search.includes('fundbriansretirement=true')
@@ -59,7 +59,7 @@ export default {
     },
 
     setup() {
-        return useLaunchCounter()
+        return useCountdown()
     },
 }
 </script>
@@ -73,7 +73,7 @@ export default {
         leave-to-class="transform scale-95 opacity-0"
     >
         <div
-            v-if="!loading && !launched"
+            v-if="!loading && !closed"
             class="bg-indigo-600 dark:bg-indigo-800"
         >
             <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
@@ -94,10 +94,10 @@ export default {
                             />
                         </span>
                         <p class="ml-3 font-medium text-white truncate">
-                            <span class="lg:hidden">
-                                Launching on <b>22-2-22 2:22:2 UTC</b>
+                            <span class="">
+                                Limited availability! Minting closes in:
                             </span>
-                            <span class="hidden lg:inline">
+                            <span v-if="false" class="hidden lg:inline">
                                 Ready for take-off! Launching on
                                 <b>22-2-22 2:22:2 UTC</b>
                             </span>
