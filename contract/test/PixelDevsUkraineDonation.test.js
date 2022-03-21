@@ -418,4 +418,82 @@ describe('PixelDevsUkraineDonation', function () {
             );
         });
     });
+
+    describe('when assigning withdraw role', function () {
+        it('should succeed if executing user has default admin role.', async function () {
+            await expect(
+                this.contract.grantRole(this.withdrawRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleGranted')
+                .withArgs(this.withdrawRole, this.otherUser.address, this.owner.address);
+        });
+
+        it('should fail if executing user does not have default admin role.', async function () {
+            await expect(
+                this.contract.connect(this.otherUser).grantRole(this.withdrawRole, this.otherUser.address)
+            )
+                .to.be.revertedWith(
+                    `AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${
+                        this.defaultAdminRole
+                    }`
+                );
+        });
+
+        it('should allow more than one user to have the withdraw role', async function () {
+            await expect(
+                this.contract.grantRole(this.withdrawRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleGranted')
+                .withArgs(this.withdrawRole, this.otherUser.address, this.owner.address);
+
+
+            const withdrawUserCount = await this.contract.getRoleMemberCount(this.withdrawRole);
+            const withdrawUsers = []; 
+
+            for(let i = 0; i < withdrawUserCount; i++) {
+                withdrawUsers.push(await this.contract.getRoleMember(this.withdrawRole, i));
+            }
+
+            expect(withdrawUsers).to.have.members([this.owner.address, this.otherUser.address]);
+        });        
+    });
+
+    describe('when assigning default admin role', function () {
+        it('should succeed if executing user has default admin role.', async function () {
+            await expect(
+                this.contract.grantRole(this.defaultAdminRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleGranted')
+                .withArgs(this.defaultAdminRole, this.otherUser.address, this.owner.address);
+        });
+
+        it('should fail if executing user does not have default admin role.', async function () {
+            await expect(
+                this.contract.connect(this.otherUser).grantRole(this.defaultAdminRole, this.otherUser.address)
+            )
+                .to.be.revertedWith(
+                    `AccessControl: account ${this.otherUser.address.toLowerCase()} is missing role ${
+                        this.defaultAdminRole
+                    }`
+                );
+        });
+
+        it('should allow more than one user to have the default admin role', async function () {
+            await expect(
+                this.contract.grantRole(this.defaultAdminRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleGranted')
+                .withArgs(this.defaultAdminRole, this.otherUser.address, this.owner.address);
+
+
+            const defaultAdminUserCount = await this.contract.getRoleMemberCount(this.defaultAdminRole);
+            const defaultAdminUsers = []; 
+
+            for(let i = 0; i < defaultAdminUserCount; i++) {
+                defaultAdminUsers.push(await this.contract.getRoleMember(this.defaultAdminRole, i));
+            }
+
+            expect(defaultAdminUsers).to.have.members([this.owner.address, this.otherUser.address]);
+        });        
+    });
 });

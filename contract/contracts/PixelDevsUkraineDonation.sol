@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
@@ -13,7 +13,7 @@ import "./@eip2981/ERC2981ContractWideRoyalties.sol";
 contract PixelDevsUkraineDonation is
     ERC721URIStorage,
     ReentrancyGuard,
-    AccessControl,
+    AccessControlEnumerable,
     ERC2981ContractWideRoyalties
 {
     using Counters for Counters.Counter;
@@ -53,7 +53,7 @@ contract PixelDevsUkraineDonation is
         public
         view
         virtual
-        override(ERC721, AccessControl, ERC2981Base)
+        override(ERC721, AccessControlEnumerable, ERC2981Base)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
