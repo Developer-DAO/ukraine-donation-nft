@@ -1,0 +1,8 @@
+{
+  "name": "Developer DAO for Ukraine",
+  "description": "Developer DAO for Ukraine is a fund-raiser to support humanitarian relief efforts in Ukraine. Supporters purchase NFTs representing different levels of donations in the form of steel, bronze, silver, diamond and platinum. The donation website and NFTs have been built by the Developer DAO. The main purpose of this project is to donate money, though the NFT may offer further utility in the future.",
+  "image": "https://ukraine.developerdao.com/meta.png",
+  "external_link": "https://ukraine.developerdao.com",
+  "seller_fee_basis_points": 1000,
+  "fee_recipient": "0xb37b3b78022E6964fe80030C9161525880274010"
+}
