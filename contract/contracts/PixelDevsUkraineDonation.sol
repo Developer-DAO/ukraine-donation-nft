@@ -20,6 +20,8 @@ contract PixelDevsUkraineDonation is
 
     string public baseURI =
         "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
+    string public contractURI =
+        "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
     bool public contractActive = true;
     mapping(string => uint256) public tiers;
     address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
@@ -27,6 +29,7 @@ contract PixelDevsUkraineDonation is
     Counters.Counter private _tokenIds;
 
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
+    event ContractURIUpdated(string indexed oldValue, string indexed newValue);
     event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
     event LogTokenMinted(
         address indexed minter,
@@ -69,6 +72,14 @@ contract PixelDevsUkraineDonation is
     {
         emit BaseURIUpdated(baseURI, _newBaseURI);
         baseURI = _newBaseURI;
+    }
+
+    function setContractURI(string memory _contractURI)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
+        emit ContractURIUpdated(contractURI, _contractURI);
+        contractURI = _contractURI;
     }
 
     function setTierPricing(

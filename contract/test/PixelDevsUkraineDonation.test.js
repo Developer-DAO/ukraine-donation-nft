@@ -5,6 +5,7 @@ const { solidity } = require('ethereum-waffle');
 use(solidity);
 
 const ipfs = 'ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/';
+const ipfsContract = 'ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/';
 const pricing = [9, 29, 79, 199, 499, 999];
 
 function tierPrice(index) {
@@ -44,6 +45,16 @@ describe('PixelDevsUkraineDonation', function () {
                 .withArgs(ipfs, newURI);
 
             await expect(await this.contract.baseURI()).to.equal(newURI);
+        });
+
+        it('should successfully setContractURI and emit event', async function () {
+            const newURI = 'ipfs://testuri';
+
+            await expect(this.contract.setContractURI(newURI))
+                .to.emit(this.contract, 'ContractURIUpdated')
+                .withArgs(ipfsContract, newURI);
+
+            await expect(await this.contract.contractURI()).to.equal(newURI);
         });
 
         it('should successfully setTierPricing and emit events', async function () {
