@@ -36,7 +36,7 @@ const state = inject('previewState')
                         sm:text-3xl
                     "
                 >
-                    Support Ukraine Donation NFT
+                    Developer DAO for Ukraine
                 </h1>
             </div>
 
@@ -49,10 +49,23 @@ const state = inject('previewState')
         </div>
 
         <p class="text-gray-500 dark:text-gray-400 mt-6">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad beatae
-            doloremque est id in ipsam nisi sit suscipit. Asperiores
-            consequuntur cupiditate eius explicabo facilis nihil nisi nulla
-            placeat quidem voluptatum.
+            The proceeds from purchasing our Ukraine NFT go directly toward
+            supporting humanitarian efforts in Ukraine via
+            <a
+                href="https://unchain.fund"
+                target="_blank"
+                rel="noopener noreferrer"
+            >https://unchain.fund</a>.
+        </p>
+
+        <p class="text-gray-500 dark:text-gray-400 mt-6">
+            Different donation levels offer NFTs in the form of steel, bronze,
+            silver, diamond and platinum. These NFTs may offer additional
+            utility on future Developer DAO projects.
+        </p>
+
+        <p class="text-gray-500 dark:text-gray-400 mt-6">
+            The NFT will be available for minting until June 30th, 2022.
         </p>
 
         <div class="mt-10">
@@ -194,27 +207,17 @@ const state = inject('previewState')
             </h3>
             <div class="mt-4 prose prose-sm text-gray-500 dark:text-gray-400">
                 <ul role="list">
-                    <li>100% of the donation goes to Ukraine</li>
-                    <li>The donation is made through Ukraine DAO</li>
-                    <li>Developer DAO will at no point have access to funds</li>
                     <li>
-                        Developer DAO takes no responsibility for the usage of
-                        funds through Ukraine DAO
+                        100% of the donation goes to Ukraine via the Unchain
+                        Fund (<a
+                            href="https://unchain.fund"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >https://unchain.fund</a>)
                     </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="border-t border-gray-200 mt-10 pt-10">
-            <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                Disclaimer
-            </h3>
-            <div class="mt-4 prose prose-sm text-gray-500 dark:text-gray-400">
-                <ul role="list">
-                    <li>Developer DAO will at no point have access to funds</li>
                     <li>
                         Developer DAO takes no responsibility for the usage of
-                        funds through Ukraine DAO
+                        funds through the Unchain Fund.
                     </li>
                 </ul>
             </div>
@@ -311,3 +314,8 @@ const state = inject('previewState')
         </div>
     </div>
 </template>
+<style>
+a {
+    @apply dark:text-gray-300;
+}
+</style>
