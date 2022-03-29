@@ -5,12 +5,17 @@ import { ExternalLinkIcon } from '@heroicons/vue/outline'
 
 const faqs = [
     {
-        question: 'Where do the proceeds go?',
+        question: 'Where do the proceeds go for the initial mint?',
         answer: `We have selected <a
                 href="https://unchain.fund"
                 target="_blank"
                 rel="noopener noreferrer"
             >https://unchain.fund</a> as the recipient of the proceeds. Donations go directly to Ukrainian non-profits and humanitarian organizations. The destination is 0xb37b3b78022E6964fe80030C9161525880274010 on Polygon.`,
+    },
+    {
+        question:
+            'Where do the proceeds go if this NFT is later resold on a secondary market?',
+        answer: 'If this NFT is resold on OpenSea (or on a market that support ERC2981) 10% of the royalties are sent to the Unchain Fund as a donation.',
     },
     {
         question: 'How are the donations withdrawn?',
@@ -23,10 +28,6 @@ const faqs = [
     {
         question: 'How do I get MATIC on Polygon?',
         answer: "Check out <a href='https://github.com/Developer-DAO/pixel-avatars/wiki/Polygon-MATIC' target='_blank' rel='noopener noreferrer'>this guide</a> on the different ways you may acquire MATIC.",
-    },
-    {
-        question: 'What about proceeds on the secondary market for this NFT?',
-        answer: 'If this NFT is resold on OpenSea (or also a market that support ERC2981) 10% of the royalties are sent to the Unchain Fund as a donation.',
     },
 ]
 </script>
