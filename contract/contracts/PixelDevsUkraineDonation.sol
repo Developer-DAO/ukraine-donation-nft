@@ -46,7 +46,7 @@ contract PixelDevsUkraineDonation is
         address indexed newValue
     );
 
-    constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
+    constructor() ERC721("Developer DAO for Ukraine", "DEVDAO-UKRAINE") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(WITHDRAW_ROLE, msg.sender);
         setRoyalties(1000); // set royalties to 10%.
