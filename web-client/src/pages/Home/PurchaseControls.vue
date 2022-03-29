@@ -86,7 +86,9 @@ watch(client.isConnected, async (isConnected) => {
                     color="green"
                 >
                     <span>Successfully purchased
-                        <b>Ukraine Donation NFT #{{ purchasedToken }}</b></span>
+                        <b>Developer DAO for Ukraine NFT #{{
+                            purchasedToken
+                        }}</b></span>
                     <CheckIcon class="w-4 h-4" />
                 </Alert>
 
