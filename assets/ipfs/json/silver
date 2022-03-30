@@ -1,5 +1,5 @@
 {
   "image": "ipfs://QmYN2e159Au44zgNqSs1RVxmnhKWCcsY4xXf6A7NmT16t4/silver.mp4",
-  "description": "The initial minting of a “Developer DAO for Ukraine” NFT represents a donation made toward humanitarian efforts in Ukraine. Donation levels are represented by steel, bronze, silver, diamond and platinum. The donation website and NFTs have been built by the Developer DAO.",
+  "description": "The initial minting of a Developer DAO for Ukraine NFT represents a donation made toward humanitarian efforts in Ukraine. Donation levels are represented by steel, bronze, silver, diamond and platinum. The donation website and NFTs have been built by the Developer DAO.",
   "attributes": [{ "trait_type": "Donation Tier", "value": "Silver" }]
 }
