@@ -19,9 +19,9 @@ contract DeveloperDAOforUkraine is
     using Counters for Counters.Counter;
 
     string public baseURI =
-        "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
+        "ipfs://QmNpRFikK2XhreaNfEgud8BECpEu3pm3TV9cq5X779MRYE/";
     string public contractURI =
-        "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
+        "ipfs://QmPpNijoDZ4e5VZhdB7vs16EJoi7BumsSizd1UGokh5YaC/";
     bool public contractActive = true;
     mapping(string => uint256) public tiers;
     address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
