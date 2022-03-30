@@ -9,8 +9,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./@eip2981/ERC2981ContractWideRoyalties.sol";
 
 /// @author Developer DAO
-/// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
-contract PixelDevsUkraineDonation is
+/// @title Developer DAO for Ukraine smart contract that is compliant with ERC721 and ERC2981 standards.
+contract DeveloperDAOforUkraine is
     ERC721URIStorage,
     ReentrancyGuard,
     AccessControlEnumerable,
