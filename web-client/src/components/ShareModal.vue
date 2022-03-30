@@ -157,7 +157,7 @@ watchEffect(async () => {
                 >
                     <p>
                         You are the owner of
-                        <b>Ukraine Donation NFT #{{ token }}</b>. Here is the full NFT ready to share on social media.
+                        <b>Developer DAO for Ukraine NFT #{{ token }}</b>. Here is the full NFT ready to share on social media.
                     </p>
                 </DialogDescription>
                 <div

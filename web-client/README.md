@@ -1,6 +1,6 @@
-# Ukraine Donation NFT: Web client
+# Developer DAO for Ukraine NFT: Web client
 
-This is the VueJS frontend for minting the Ukraine Donation NFT.
+This is the VueJS frontend for minting the Developer DAO for Ukraine NFT.
 
 ## Installation
 

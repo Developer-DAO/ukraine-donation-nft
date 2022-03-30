@@ -5,28 +5,29 @@ import { ExternalLinkIcon } from '@heroicons/vue/outline'
 
 const faqs = [
     {
-        question: 'What are Pixel Devs?',
-        answer: 'They are a derivative NFT on the Polygon Network based on the Genesis Developer DAO NFT: Developers for Revolution. They are a graphical representation of the text-based properties from the Genesis NFT.',
+        question: 'Where do the proceeds go for the initial mint?',
+        answer: `We have selected <a
+                href="https://unchain.fund"
+                target="_blank"
+                rel="noopener noreferrer"
+            >https://unchain.fund</a> as the recipient of the proceeds. Donations go directly to Ukrainian non-profits and humanitarian organizations. The destination is 0xb37b3b78022E6964fe80030C9161525880274010 on Polygon.`,
     },
     {
-        question: 'Do I become Developer DAO member by purchasing a Pixel Dev?',
-        answer: 'No, a Pixel Dev is a Derivative NFT and requires you are already a DAO member. Please follow Developer DAO to stay tuned for further openings.',
+        question:
+            'Where do the proceeds go if this NFT is later resold on a secondary market?',
+        answer: 'If this NFT is resold on OpenSea (or on a market that support ERC2981) 10% of the royalties are sent to the Unchain Fund as a donation.',
     },
     {
-        question: 'How do i get a Pixel Dev?',
-        answer: 'You need to hold a Genesis NFT to be able to mint a Pixel Dev. You can claim your Pixel Dev on this website by logging in with your wallet after launch. Please note you must login with the same address that holds your Genesis NFT.',
+        question: 'How are the donations withdrawn?',
+        answer: 'Developer DAO has several safe-guards in place inside the Smart Contract to ensure donations arrive safely. This includes contract ownership, admin role features, and a hard-coded wallet destination.<br/><br/>The contract is owned by the Developer DAO leadership. Owners are able to change the donation destination and assign roles for those that can withdraw the funds to that specific destination.<br/><br/>The destination will be set to 0xb37b3b78022E6964fe80030C9161525880274010 on Polygon. More details available at <a href="https://unchain.fund#donate" target="_blank" rel="noopener noreferrer">https://unchain.fund#donate</a>.<br/><br/>If the withdrawal destination changes, it will be recorded on the Polygon blockchain for transparency and traceability.<br/><br/>We also have a 10% Royalty system to ensure that some funds are donated from secondary-market sales.',
     },
     {
         question: 'What network do we use?',
-        answer: 'Pixel Devs are minted on the Polygon Network. Polygon provides lower gas fees making the NFTs more accessible and affordable for our members.',
+        answer: 'Developer DAO for Ukraine NFTs are minted on the Polygon Network. Polygon provides lower gas fees making the NFTs more accessible and affordable.',
     },
     {
-        question: 'How do i get MATIC on Polygon?',
-        answer: "Check out <a href='https://github.com/Developer-DAO/pixel-avatars/wiki/Polygon-MATIC' target='_blank' class='underline'>this guide</a> on the different ways you may acquire MATIC.",
-    },
-    {
-        question: 'How much does a Pixel Dev cost?',
-        answer: 'Each Pixel Dev costs 12 MATIC plus gas fees to mint.',
+        question: 'How do I get MATIC on Polygon?',
+        answer: "Check out <a href='https://github.com/Developer-DAO/pixel-avatars/wiki/Polygon-MATIC' target='_blank' rel='noopener noreferrer'>this guide</a> on the different ways you may acquire MATIC.",
     },
 ]
 </script>
@@ -67,15 +68,19 @@ const faqs = [
                 </DisclosureButton>
             </dt>
             <DisclosurePanel as="dd" class="mt-2 pr-12">
-                <p>
-                    {{ faq.answer }}
-                </p>
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <p v-html="faq.answer" />
+                <!-- {{ faq.answer }} -->
+                <!-- </p> -->
             </DisclosurePanel>
         </Disclosure>
     </dl>
 </template>
 <style>
 .prose h4 {
+    @apply dark:text-gray-300;
+}
+.prose a {
     @apply dark:text-gray-300;
 }
 </style>
