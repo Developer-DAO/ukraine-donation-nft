@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Contract from '../../../../abis/PixelDevsUkraineDonation.json'
+import Contract from '../../../../abis/DeveloperDAOforUkraine.json'
 import { inject } from 'vue'
 import { CONTRACT_TOKEN, CONTRACT_NETWORK } from '../../constants'
 import { ethers } from 'ethers'

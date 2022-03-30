@@ -1,4 +1,4 @@
-// test/PixelDevsUkraineDonation.test.js
+// test/DeveloperDAOforUkraine.test.js
 const { expect, use } = require('chai');
 const { solidity } = require('ethereum-waffle');
 
@@ -12,10 +12,10 @@ function tierPrice(index) {
     return ethers.utils.parseEther(pricing[index].toString());
 }
 
-describe('PixelDevsUkraineDonation', function () {
+describe('DeveloperDAOforUkraine', function () {
     before(async function () {
         this.Contract = await ethers.getContractFactory(
-            'PixelDevsUkraineDonation'
+            'DeveloperDAOforUkraine'
         );
 
         const [owner, addr2] = await ethers.getSigners();
