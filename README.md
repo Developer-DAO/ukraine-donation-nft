@@ -11,3 +11,5 @@ Based on the Developer DAO Pixel Devs design.
 ## What are the pieces?
 
 - To setup or change the Polygon contract, see [contract/README.md](./contract/README.md).
+- To upload assets in IPFS for the contract, see [assets/README.md](./assets/README.md).
+- To setup front-end, see [web-client/README.md](./web-client/README.md).

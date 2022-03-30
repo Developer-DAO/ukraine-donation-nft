@@ -1,5 +1,5 @@
 {
   "image": "ipfs://QmYN2e159Au44zgNqSs1RVxmnhKWCcsY4xXf6A7NmT16t4/gold.mp4",
-  "description": "The proceeds from purchasing a Ukraine Donation NFT go directly toward supporting humanitarian efforts in Ukraine. Donation levels are represented by steel, bronze, silver, diamond and platinum. The NFT and donation website were built by the Developer DAO and the design matches the Pixel Devs style. The main purpose of this project is to donate money, though the NFT may offer further utility in the future.",
+  "description": "The initial minting of a Developer DAO for Ukraine NFT represents a donation made toward humanitarian efforts in Ukraine. Donation levels are represented by steel, bronze, silver, diamond and platinum. The donation website and NFTs have been built by the Developer DAO.",
   "attributes": [{ "trait_type": "Donation Tier", "value": "Gold" }]
 }

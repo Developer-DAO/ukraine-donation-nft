@@ -9,8 +9,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./@eip2981/ERC2981ContractWideRoyalties.sol";
 
 /// @author Developer DAO
-/// @title The Pixel Devs Ukraine Donation smart contract that is compliant to ERC721 standard.
-contract PixelDevsUkraineDonation is
+/// @title Developer DAO for Ukraine smart contract that is compliant with ERC721 and ERC2981 standards.
+contract DeveloperDAOforUkraine is
     ERC721URIStorage,
     ReentrancyGuard,
     AccessControlEnumerable,
@@ -19,7 +19,9 @@ contract PixelDevsUkraineDonation is
     using Counters for Counters.Counter;
 
     string public baseURI =
-        "ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/";
+        "ipfs://QmNpRFikK2XhreaNfEgud8BECpEu3pm3TV9cq5X779MRYE/";
+    string public contractURI =
+        "ipfs://QmPpNijoDZ4e5VZhdB7vs16EJoi7BumsSizd1UGokh5YaC/";
     bool public contractActive = true;
     mapping(string => uint256) public tiers;
     address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
@@ -27,6 +29,7 @@ contract PixelDevsUkraineDonation is
     Counters.Counter private _tokenIds;
 
     event BaseURIUpdated(string indexed oldValue, string indexed newValue);
+    event ContractURIUpdated(string indexed oldValue, string indexed newValue);
     event ContractStateUpdated(bool indexed oldValue, bool indexed newValue);
     event LogTokenMinted(
         address indexed minter,
@@ -43,7 +46,7 @@ contract PixelDevsUkraineDonation is
         address indexed newValue
     );
 
-    constructor() ERC721("PixelDevsUkraineDonation", "PXLDEV-UKRAINE") {
+    constructor() ERC721("Developer DAO for Ukraine", "DEVDAO-UKRAINE") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(WITHDRAW_ROLE, msg.sender);
         setRoyalties(1000); // set royalties to 10%.
@@ -69,6 +72,14 @@ contract PixelDevsUkraineDonation is
     {
         emit BaseURIUpdated(baseURI, _newBaseURI);
         baseURI = _newBaseURI;
+    }
+
+    function setContractURI(string memory _contractURI)
+        public
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
+        emit ContractURIUpdated(contractURI, _contractURI);
+        contractURI = _contractURI;
     }
 
     function setTierPricing(

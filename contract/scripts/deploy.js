@@ -2,7 +2,7 @@
 
 async function main() {
     const contract = await ethers.getContractFactory(
-        'PixelDevsUkraineDonation'
+        'DeveloperDAOforUkraine'
     );
 
     console.log('Deploying contract...');
