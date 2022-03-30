@@ -15,7 +15,7 @@ const faqs = [
     {
         question:
             'Where do the proceeds go if this NFT is later resold on a secondary market?',
-        answer: 'If this NFT is resold on OpenSea (or on a market that support ERC2981) 10% of the royalties are sent to the Unchain Fund as a donation.',
+        answer: 'If this NFT is resold on OpenSea (or on a market that support ERC2981), the 10% royalties share are sent to the Unchain Fund as a donation.',
     },
     {
         question: 'How are the donations withdrawn?',
