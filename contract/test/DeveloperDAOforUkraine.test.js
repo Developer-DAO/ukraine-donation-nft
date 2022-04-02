@@ -4,8 +4,8 @@ const { solidity } = require('ethereum-waffle');
 
 use(solidity);
 
-const ipfs = 'ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/';
-const ipfsContract = 'ipfs://QmZiCUXCytbbnqCzJAujXLxeQS7MkE9TJKyYbV6LjSinN4/';
+const ipfs = 'ipfs://QmNpRFikK2XhreaNfEgud8BECpEu3pm3TV9cq5X779MRYE/';
+const ipfsContract = 'ipfs://QmPpNijoDZ4e5VZhdB7vs16EJoi7BumsSizd1UGokh5YaC/';
 const pricing = [9, 29, 79, 199, 499, 999];
 
 function tierPrice(index) {
