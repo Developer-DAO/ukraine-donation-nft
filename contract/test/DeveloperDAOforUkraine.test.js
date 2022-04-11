@@ -507,4 +507,54 @@ describe('DeveloperDAOforUkraine', function () {
             expect(defaultAdminUsers).to.have.members([this.owner.address, this.otherUser.address]);
         });        
     });
+
+    describe('when revoking default admin role', function () { 
+        it('should succeed if executing user has default admin role.', async function () {
+            await expect(
+                this.contract.grantRole(this.defaultAdminRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleGranted')
+                .withArgs(this.defaultAdminRole, this.otherUser.address, this.owner.address);
+
+            await expect(
+                this.contract.revokeRole(this.defaultAdminRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleRevoked')
+                .withArgs(this.defaultAdminRole, this.otherUser.address, this.owner.address)
+
+            const defaultAdminUserCount = await this.contract.getRoleMemberCount(this.defaultAdminRole);
+            const defaultAdminUsers = []; 
+
+            for(let i = 0; i < defaultAdminUserCount; i++) {
+                defaultAdminUsers.push(await this.contract.getRoleMember(this.defaultAdminRole, i));
+            }
+    
+            expect(defaultAdminUsers).to.have.members([this.owner.address]);
+        });
+    });
+
+    describe('when revoking withdraw role', function () { 
+        it('should succeed if executing user has default admin role.', async function () {
+            await expect(
+                this.contract.grantRole(this.withdrawRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleGranted')
+                .withArgs(this.withdrawRole, this.otherUser.address, this.owner.address);
+
+            await expect(
+                this.contract.revokeRole(this.withdrawRole, this.otherUser.address)
+            )
+                .to.emit(this.contract, 'RoleRevoked')
+                .withArgs(this.withdrawRole, this.otherUser.address, this.owner.address)
+
+            const defaultWithdrawUserCount = await this.contract.getRoleMemberCount(this.withdrawRole);
+            const defaultWithdrawUsers = []; 
+
+            for(let i = 0; i < defaultWithdrawUserCount; i++) {
+                defaultWithdrawUsers.push(await this.contract.getRoleMember(this.withdrawRole, i));
+            }
+    
+            expect(defaultWithdrawUsers).to.have.members([this.owner.address]);
+        });
+    });
 });
