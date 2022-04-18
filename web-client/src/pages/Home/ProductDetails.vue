@@ -65,7 +65,7 @@ const state = inject('previewState')
         </p>
 
         <p class="text-gray-500 dark:text-gray-400 mt-6">
-            The NFT will be available for minting until June 30th, 2022.
+            The NFT will be available for minting until May 23rd, 2022.
         </p>
 
         <div class="mt-10">
@@ -223,7 +223,7 @@ const state = inject('previewState')
             </div>
         </div>
 
-        <div class="border-t border-gray-200 mt-10 pt-10">
+        <!-- <div class="border-t border-gray-200 mt-10 pt-10">
             <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                 Share
             </h3>
@@ -311,7 +311,7 @@ const state = inject('previewState')
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </template>
 <style>

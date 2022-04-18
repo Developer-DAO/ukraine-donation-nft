@@ -3,7 +3,7 @@ import { SpeakerphoneIcon } from '@heroicons/vue/outline'
 import { computed, onUnmounted, ref } from 'vue'
 
 export function useCountdown() {
-    const mintingDeadline = new Date(Date.UTC(2022, 5, 30, 0, 0, 0)).getTime()
+    const mintingDeadline = new Date(Date.UTC(2022, 4, 23, 0, 0, 0)).getTime()
 
     const days = ref(null)
     const hours = ref(null)
