@@ -35,6 +35,17 @@ await donation.setBaseURI("ipfs://abc");
     -   Run `setContract` to point to IPFS location of contract metadata for OpenSea
     -   Run `setBaseURI` to point to IPFS location that has folder of NFT metadata json files
 
+## Deploy to Rinkeby for Testing Royalties on OpenSea
+
+You need to deploy contract to Rinkeby to manually test royalty payments. Mumbai uses MATIC and there doesn't seem to be a way to wrap this on OpenSea on their testnet. You can work with ETH throughout via Rinkeby.
+
+Unfortunately means we're not testing on the actual Polygon chain, but is a workaround.
+
+Get test ETH at <https://rinkebyfaucet.com>. Login via Alchemy to receive 0.5 ETH per transaction.
+
+Follow "Deploy to Polygon" instructions above but make sure you set `RINKEBY_RPC` env variable and use `yarn deploy:rinkeby` and `npx hardhat verify --network rinkeby PIXEL_AVATAR_CONTRACT_ADDRESS`
+
+Visit contract at <https://rinkeby.etherscan.io/>
 
 ## Contract Access Control
 
