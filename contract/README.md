@@ -47,6 +47,13 @@ Follow "Deploy to Polygon" instructions above but make sure you set `RINKEBY_RPC
 
 Visit contract at <https://rinkeby.etherscan.io/>
 
+To test it out on OpenSea:
+
+-   Mint a steel NFT for 0.009 ETH via contract on Etherscan
+-   Put it up for sale on OpenSea and see 10% notice
+-   Buy it from another wallet and see 10% notice
+-   In OpenSea UI, visit collection (via wallet of the contract creator), click edit, and you should see a section called "Creator Earnings" and it should have the correct 10% and wallet of the recipient.
+
 ## Contract Access Control
 
 In this section, we document the contract roles and associated test scenarios for access control. 
