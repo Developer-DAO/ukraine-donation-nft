@@ -54,6 +54,21 @@ To test it out on OpenSea:
 -   Buy it from another wallet and see 10% notice
 -   In OpenSea UI, visit collection (via wallet of the contract creator), click edit, and you should see a section called "Creator Earnings" and it should have the correct 10% and wallet of the recipient.
 
+## Deploy to Polygon Mainnet
+
+-   copy `.env.sample` to `.env`
+    -   add your Polygon node RPC URL, for example a url from [Alchemy](https://www.alchemy.com/) or another Polygon node services.
+    -   add your account private key, for example an account created via MetaMask.
+-   make sure `DUMMY_PRICING=false` in `.env`
+-   ensure your account has some MATIC
+-   deploy via `yarn deploy:mainnet`
+-   upload source code via `npx hardhat verify --network mainnet PIXEL_AVATAR_CONTRACT_ADDRESS`
+-   you should see it now in Polygonscan <https://polygonscan.com/> when looking up your public account address used to deploy the contract
+-   Upload IPFS metadata. See `../assets/README.md`
+-   On <https://polygonscan.com/> update:
+    -   Run `setContract` to point to IPFS location of contract metadata for OpenSea
+    -   Run `setBaseURI` to point to IPFS location that has folder of NFT metadata json files
+
 ## Contract Access Control
 
 In this section, we document the contract roles and associated test scenarios for access control. 

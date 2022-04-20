@@ -13,6 +13,8 @@
         "console:mumbai": "hardhat console --network mumbai",
         "deploy:rinkeby": "hardhat compile && hardhat run --network rinkeby scripts/deploy.js",
         "console:rinkeby": "hardhat console --network rinkeby",
+        "deploy:mainnet": "hardhat compile && hardhat run --network mainnet scripts/deploy.js",
+        "console:mainnet": "hardhat console --network mainnet",
         "style": "prettier --write ."
     },
     "engines": {
