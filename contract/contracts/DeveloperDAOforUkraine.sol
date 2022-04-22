@@ -24,7 +24,7 @@ contract DeveloperDAOforUkraine is
         "ipfs://QmPpNijoDZ4e5VZhdB7vs16EJoi7BumsSizd1UGokh5YaC/";
     bool public contractActive = true;
     mapping(string => uint256) public tiers;
-    address public withdrawWallet = 0x633b7218644b83D57d90e7299039ebAb19698e9C;
+    address public withdrawWallet = 0xb37b3b78022E6964fe80030C9161525880274010; // Unchain.fund
     bytes32 public constant WITHDRAW_ROLE = keccak256("WITHDRAW_ROLE");
     Counters.Counter private _tokenIds;
 

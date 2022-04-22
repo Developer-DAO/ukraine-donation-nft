@@ -8,6 +8,8 @@ require('@nomiclabs/hardhat-etherscan');
 
 // default values are there to avoid failures when running tests
 const POLYGON_MUMBAI_RPC = process.env.POLYGON_MUMBAI_RPC || '1'.repeat(32);
+const POLYGON_MAINNET_RPC = process.env.POLYGON_MAINNET_RPC || '1'.repeat(32);
+const RINKEBY_RPC = process.env.RINKEBY_RPC || '1'.repeat(32);
 const PRIVATE_KEY = process.env.PRIVATE_KEY || '1'.repeat(64);
 
 module.exports = {
@@ -23,6 +25,14 @@ module.exports = {
     networks: {
         mumbai: {
             url: POLYGON_MUMBAI_RPC,
+            accounts: [PRIVATE_KEY],
+        },
+        rinkeby: {
+            url: RINKEBY_RPC,
+            accounts: [PRIVATE_KEY],
+        },
+        mainnet: {
+            url: POLYGON_MAINNET_RPC,
             accounts: [PRIVATE_KEY],
         },
     },
