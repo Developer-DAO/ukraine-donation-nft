@@ -17,7 +17,7 @@ provide('previewState', previewState)
 </script>
 <template>
     <div class="bg-white dark:bg-gray-900">
-        <!-- <CountdownBanner /> -->
+        <CountdownBanner />
 
         <Top />
 
@@ -55,7 +55,7 @@ provide('previewState', previewState)
                 </div>
 
                 <!-- Product details -->
-                <!-- <ProductDetails /> -->
+                <ProductDetails />
 
                 <div
                     class="
