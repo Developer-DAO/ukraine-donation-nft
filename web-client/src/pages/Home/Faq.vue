@@ -10,7 +10,7 @@ const faqs = [
                 href="https://unchain.fund"
                 target="_blank"
                 rel="noopener noreferrer"
-            >https://unchain.fund</a> as the recipient of the proceeds. Donations go directly to Ukrainian non-profits and humanitarian organizations. The destination is 0xb37b3b78022E6964fe80030C9161525880274010 on Polygon.`,
+            >https://unchain.fund</a> as the recipient of the proceeds. Donations go to Ukrainian non-profits and humanitarian organizations.`,
     },
     {
         question:
@@ -19,7 +19,11 @@ const faqs = [
     },
     {
         question: 'How are the donations withdrawn?',
-        answer: 'Developer DAO has several safe-guards in place inside the Smart Contract to ensure donations arrive safely. This includes contract ownership, admin role features, and a hard-coded wallet destination.<br/><br/>The contract is owned by the Developer DAO leadership. Owners are able to change the donation destination and assign roles for those that can withdraw the funds to that specific destination.<br/><br/>The destination will be set to 0xb37b3b78022E6964fe80030C9161525880274010 on Polygon. More details available at <a href="https://unchain.fund#donate" target="_blank" rel="noopener noreferrer">https://unchain.fund#donate</a>.<br/><br/>If the withdrawal destination changes, it will be recorded on the Polygon blockchain for transparency and traceability.<br/><br/>We also have a 10% Royalty system to ensure that some funds are donated from secondary-market sales.',
+        answer: `Developer DAO has several safe-guards in place inside the Smart Contract to ensure donations arrive safely. This includes contract ownership and admin role features.<br/><br/>The contract is administrated by the Developer DAO leadership. Contract administrators are able to change the donation destination and assign roles for those that can withdraw the funds.<br/><br/>If the withdrawal destination changes, it will be recorded on the Polygon blockchain for transparency and traceability.<br/><br/>We also have a 10% Royalty system on OpenSea to ensure that some funds are donated from secondary-market sales.<br/><br/>The funds will arrive at <a
+                href="https://unchain.fund"
+                target="_blank"
+                rel="noopener noreferrer"
+            >https://unchain.fund</a> through this process: <ul><li>The Developer DAO will manually withdraw funds from this contract to its multi-signature wallet (<em>0x7128f5ff32eD07Ce12E6a9deBE32BB40F9884b3C</em>)</li><li>the Developer DAO will then transfer those funds to unchain.fund contract at <em>0xb37b3b78022E6964fe80030C9161525880274010</em> on Polygon.</li></ul>These transactions will be transparent and visible on the Polygon blockchain.<br/><br/>Our initial plan was to transfer directly from our contract to the unchain.fund contract but there were limitations preventing this.`,
     },
     {
         question: 'What network do we use?',
