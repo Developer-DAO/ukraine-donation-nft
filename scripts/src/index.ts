@@ -1,8 +1,13 @@
+import "dotenv/config";
+import { useContracts, useSigner } from "./hooks";
+
 async function main() {
-  // TODO: Write
+  const { derivativesContract } = useContracts();
+
+  await derivativesContract.withdraw()
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
