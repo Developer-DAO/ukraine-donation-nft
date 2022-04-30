@@ -2,11 +2,19 @@
 
 ![Solidity tests](https://github.com/Developer-DAO/ukraine-donation-nft/actions/workflows/continuous-integration.yaml/badge.svg)
 
-An OpenZeppelin smart contract to support donations to Ukraine DAO for humanitarian efforts.
+## Project Overview
 
-Donations being sent to: https://twitter.com/Ukraine_DAO/status/1497740751941238784
+This is the open-source web UI and smart contract code for the [Developer DAO for Ukraine](https://ukraine.developerdao.com/) site.
 
-Based on the Developer DAO Pixel Devs design.
+The proceeds from purchasing our Ukraine NFT go directly toward supporting humanitarian efforts in Ukraine via https://unchain.fund.
+
+Different donation levels offer NFTs in the form of steel, bronze, silver, diamond and platinum. These NFTs may offer additional utility on future Developer DAO projects.
+
+We mint on #polygon though if you want to give directly on another blockchain and forego our NFT, you can donate to Ukraine organizations directly via unchain.fund.
+
+The Developer DAO is a community of people contributing to the future of Web3.
+
+Art design is based on the Developer DAO Pixel Devs <https://pixel-devs.developerdao.com/>.
 
 ## What are the pieces?
 
