@@ -10,8 +10,9 @@ export default function usePreviewState() {
             : null
     })
     const selectedPriceInDollars = computed(() => {
+        const maticToUsd = 0.6; // value to multiple MATIC by to get USD
         return selected.value && selected.value.price !== null
-            ? Math.round(selected.value.price * 1.5)
+            ? Math.round(selected.value.price * maticToUsd)
             : null
     })
 
